@@ -37,14 +37,19 @@ function AuthPage() {
         toast.success("Welcome back.");
         navigate({ to: "/admin" });
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: `${window.location.origin}/admin` },
         });
         if (error) throw error;
-        toast.success("Account created.");
-        navigate({ to: "/admin" });
+        if (data?.session) {
+          toast.success("Welcome! Account created successfully.");
+          navigate({ to: "/admin" });
+        } else {
+          toast.success("Account created! Please check your email for a verification link to confirm your account.");
+          setMode("signin");
+        }
       }
     } catch (err) {
       toast.error((err as Error).message);
@@ -55,17 +60,18 @@ function AuthPage() {
 
   async function handleGoogle() {
     try {
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+      setLoading(true);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/admin`,
+        },
       });
-      if (result.error) {
-        toast.error(result.error.message || "Google sign-in failed.");
-        return;
-      }
-      if (result.redirected) return;
-      navigate({ to: "/admin" });
+      if (error) throw error;
     } catch (err) {
       toast.error((err as Error).message);
+    } finally {
+      setLoading(false);
     }
   }
 

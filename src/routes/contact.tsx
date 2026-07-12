@@ -32,26 +32,21 @@ function ContactPage() {
   const whatsAppHref = `https://wa.me/${whatsAppPhone}?text=${whatsAppMessage}`;
   const addressLine = "39 6th St - Al Murar - Dubai - United Arab Emirates";
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressLine)}`;
-  const contactEmail = "corporate001@gmail.com";
+  const contactEmail = "areebanasir415@gmail.com";
   const emailSubject = encodeURIComponent("Inquiry from Cuerocaza website");
   const emailBody = encodeURIComponent("Hello Cuerocaza,\n\nI'd like to know more about your leather goods.\n\nRegards,");
-  // Gmail web compose works reliably even on laptops without a default mail client.
-  const mailtoHref = `https://mail.google.com/mail/?view=cm&fs=1&to=${contactEmail}&su=${emailSubject}&body=${emailBody}`;
+  // Standard mailto works universally across devices and default mail apps.
+  const mailtoHref = `mailto:${contactEmail}?subject=${emailSubject}&body=${emailBody}`;
   const mutation = useMutation({
     mutationFn: (data: typeof form) => submit({ data }),
     onSuccess: (_res, vars) => {
-      toast.success("Thank you — we'll write back shortly. Opening WhatsApp & email…");
-      // Forward the customer's message to the business WhatsApp number and Gmail
-      // so the team receives it in addition to the database record.
+      toast.success("Thank you — we've received your inquiry! Opening WhatsApp to connect with us directly…");
+      // Forward the customer's message to the business WhatsApp number
       const waText = encodeURIComponent(
         `New inquiry from ${vars.name}${vars.phone ? ` (${vars.phone})` : ""}:\n\n${vars.message}`
       );
       const waForward = `https://wa.me/${whatsAppPhone}?text=${waText}`;
-      const gmailForward = `https://mail.google.com/mail/?view=cm&fs=1&to=${contactEmail}` +
-        `&su=${encodeURIComponent(`Website inquiry from ${vars.name}`)}` +
-        `&body=${encodeURIComponent(`Name: ${vars.name}\nWhatsApp: ${vars.phone || "—"}\n\nMessage:\n${vars.message}`)}`;
       window.open(waForward, "_blank", "noopener,noreferrer");
-      window.open(gmailForward, "_blank", "noopener,noreferrer");
       setForm({ name: "", email: "", phone: "", message: "" });
     },
     onError: (e: Error) => toast.error(e.message || "Could not send."),
@@ -63,7 +58,7 @@ function ContactPage() {
         <span className="eyebrow">Get in touch</span>
         <dl className="mt-10 space-y-4 text-sm">
           <div>
-            <dt className="eyebrow">Address</dt>
+            <span className="eyebrow">Address</span>
             <dd className="mt-1">
               <a
                 href={mapsHref}
@@ -78,20 +73,18 @@ function ContactPage() {
               </a>
             </dd>
           </div>
-          <div><dt className="eyebrow">Hours</dt><dd className="mt-1">Mon – Sat,(10:00 – 19:00)</dd></div>
+          <div><dt className="eyebrow">Hours</dt><dd className="mt-1">Mon – Sat, (10:00 – 19:00)</dd></div>
           <div>
             <dt className="eyebrow">Email</dt>
             <dd className="mt-1">
               <a
                 href={mailtoHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Email corporate001@gmail.com"
-                title="Email corporate001@gmail.com"
+                aria-label={`Email ${contactEmail}`}
+                title={`Email ${contactEmail}`}
                 className="inline-flex items-center gap-2 text-cognac hover:underline"
               >
                 <Mail className="h-4 w-4" />
-                corporate001@gmail.com
+                {contactEmail}
               </a>
             </dd>
           </div>

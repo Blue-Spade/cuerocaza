@@ -1,30 +1,14 @@
-const EMAIL = "spadejamal678@gmail.com";
+const EMAIL = "areebanasir415@gmail.com";
 const SUBJECT = "Inquiry from Cuerocaza website";
 const BODY = "Hello Cuerocaza,\n\nI'd like to know more about your leather goods.\n\nRegards,";
 
-// Open Gmail web compose directly — works on laptops without a configured
-// default mail client (mailto: silently fails in that case).
-const GMAIL_WEB = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}&su=${encodeURIComponent(SUBJECT)}&body=${encodeURIComponent(BODY)}`;
 const MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent(SUBJECT)}&body=${encodeURIComponent(BODY)}`;
 
 export function GmailFloat() {
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const win = window.open(GMAIL_WEB, "_blank", "noopener,noreferrer");
-    if (!win || win.closed) {
-      // Popup blocked (often inside preview iframes) — escape the frame
-      try { window.top!.location.href = GMAIL_WEB; }
-      catch { window.location.href = MAILTO; }
-    }
-  };
-
   return (
     <div className="fixed bottom-24 right-6 z-50">
       <a
-        href={GMAIL_WEB}
-        onClick={handleClick}
-        target="_blank"
-        rel="noopener noreferrer"
+        href={MAILTO}
         aria-label={`Email ${EMAIL}`}
         title={`Email ${EMAIL}`}
         className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#EA4335] text-white shadow-warm transition hover:scale-110 hover:shadow-elev"

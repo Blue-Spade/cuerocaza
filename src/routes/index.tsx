@@ -89,7 +89,9 @@ function Home() {
                 stitched. We sourced only premium Italian leather and refused to compromise on any seam, edge or thread.
               </p>
 
-              <h3 className="mt-8 font-display text-2xl md:text-3xl text-cognac">Launched Online · Cuerocaza.com</h3>
+              <h3 className="mt-8 font-display text-2xl md:text-3xl text-cognac">
+                Launched Online · <a href="https://cuerocaza.com" target="_blank" rel="noopener noreferrer" className="hover:underline text-cognac">Cuerocaza.com</a>
+              </h3>
               <p className="mt-3 text-base leading-relaxed text-foreground/85">
                 As demand grew beyond the gift shop, we expanded into a full digital storefront so customers
                 across the UAE could explore our collection, customise their pieces, and place corporate

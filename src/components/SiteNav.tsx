@@ -25,7 +25,6 @@ export function SiteNav() {
           />
           <span className="font-display text-base md:text-lg tracking-wider leading-none">
             CUEROCAZA<span className="text-cognac">.</span>
-            <span className="ml-1 align-super text-[9px] tracking-[0.3em] text-muted-foreground">DUBAI</span>
           </span>
         </Link>
 
