@@ -1,0 +1,16 @@
+UPDATE public.products SET price_cents = 14900 WHERE category = 'mens-belts';
+UPDATE public.products SET price_cents = 9900 WHERE category = 'unisex-card-holders';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/46b95ace-7f87-42bf-81e5-5c2e55069a80/belt-new-1.jpg' WHERE id = '00000000-0000-4002-8000-000000000001';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/eb9c4b38-9126-427c-b5e6-53613fec3ae8/belt-new-2.jpg' WHERE id = '00000000-0000-4002-8000-000000000002';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/e3ae92e8-c9ba-4748-b9c6-6adcba9433d9/belt-new-3.jpg' WHERE id = '00000000-0000-4002-8000-000000000003';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/2a937695-b46a-4337-9683-8286c6e94aba/belt-new-4.jpg' WHERE id = '00000000-0000-4002-8000-000000000004';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/d1966379-6f0d-46c2-9222-400c7b8800b7/belt-new-5.jpg' WHERE id = '00000000-0000-4002-8000-000000000005';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/02f05754-83c5-4d56-92e8-129888f61876/belt-new-6.jpg' WHERE id = '00000000-0000-4002-8000-000000000006';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/b86c0afc-134d-4f3b-af79-541c78cb1734/belt-new-7.jpg' WHERE id = '00000000-0000-4002-8000-000000000007';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/f57f2140-02d0-4fb6-910a-7b1d1b77cda6/belt-new-8.jpg' WHERE id = '00000000-0000-4002-8000-000000000008';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/058a95ec-af32-4233-ae63-9ec6d7888498/belt-new-9.png' WHERE id = '00000000-0000-4002-8000-000000000009';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/1430f68a-f9f9-47dd-b789-5d0643911494/belt-new-10.png' WHERE id = '00000000-0000-4002-8000-000000000010';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/7f8e57ce-402d-434e-921c-1b42057c52d2/belt-new-11.png' WHERE id = '00000000-0000-4002-8000-000000000011';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/2f2ecf09-e2c0-4ce9-b059-2dfb6d37c676/belt-new-12.png' WHERE id = '00000000-0000-4002-8000-000000000012';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/f8756f3a-a4e1-4ac3-81e8-14c583d2d5d6/belt-new-13.png' WHERE id = '00000000-0000-4002-8000-000000000013';
+UPDATE public.products SET image_url = '/__l5e/assets-v1/9d3d6215-530a-499a-b6aa-b52bad503b34/belt-new-14.png' WHERE id = '00000000-0000-4002-8000-000000000014';

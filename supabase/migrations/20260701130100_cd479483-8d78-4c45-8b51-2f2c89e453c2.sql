@@ -1,0 +1,12 @@
+-- Update card holder names based on image paths
+UPDATE public.products SET name = 'Brown Crunch Leather Unisex Card Holder' WHERE image_url = '/products/card-holders/card-holder-1.jpeg' AND category = 'unisex-card-holders';
+UPDATE public.products SET name = 'Tan Nappa Leather Unisex Card Holder with  cash keeping compartment' WHERE image_url = '/products/card-holders/card-holder-2.jpeg' AND category = 'unisex-card-holders';
+UPDATE public.products SET name = 'Tan Nappa Leather Unisex Card Holder' WHERE image_url = '/products/card-holders/card-holder-3.jpeg' AND category = 'unisex-card-holders';
+UPDATE public.products SET name = 'Black & Brown Nappa Leather Unisex Card Holder with cash compartment & elastic gripper.' WHERE image_url = '/products/card-holders/card-holder-4.jpeg' AND category = 'unisex-card-holders';
+UPDATE public.products SET name = 'Black Nappa Leather Unisex Magic Card Holder with cash compartment' WHERE image_url = '/products/card-holders/card-holder-5.jpeg' AND category = 'unisex-card-holders';
+UPDATE public.products SET name = 'Black Nappa Leather Unisex Card Holder with cash compartment & button' WHERE image_url = '/products/card-holders/card-holder-6.jpeg' AND category = 'unisex-card-holders';
+UPDATE public.products SET name = 'Brown Nappa Leather Unisex Card Holder with cash compartment in the center' WHERE image_url = '/products/card-holders/card-holder-7.jpeg' AND category = 'unisex-card-holders';
+UPDATE public.products SET name = 'Black Nappa Leather Unisex Card Holder with cash compartment in the center' WHERE image_url = '/products/card-holders/card-holder-8.jpeg' AND category = 'unisex-card-holders';
+UPDATE public.products SET name = 'Black Nappa Leather Unisex Card Holder with cash compartment in the center.' WHERE image_url = '/products/card-holders/card-holder-9.jpeg' AND category = 'unisex-card-holders';
+UPDATE public.products SET name = 'Black Nappa Leather Unisex Card Holder with cash compartment in the center.' WHERE image_url = '/products/card-holders/card-holder-10.jpeg' AND category = 'unisex-card-holders';
+UPDATE public.products SET name = 'Brown Crunch Leather Unisex Card Holder' WHERE image_url = '/products/card-holders/card-holder-11.png' AND category = 'unisex-card-holders';

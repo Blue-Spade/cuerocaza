@@ -1,0 +1,20 @@
+
+UPDATE public.products SET image_url = '/__l5e/assets-v1/f7d08005-5d6a-4ab0-b88b-a066ac1bf0a0/card-holder-10-2.jpeg' WHERE id = '00000000-0000-4001-8000-000000000002';
+
+DELETE FROM public.products WHERE category = 'mens-belts';
+
+INSERT INTO public.products (id, name, description, category, price_cents, currency, image_url, sort_order, featured, stock) VALUES
+('00000000-0000-4002-8000-000000000001','Casual Men''s Leather Belt — Edition 01','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/04cc04b1-639a-47da-8a58-67b5fc941986/belt-v3-1.jpg',3001,false,3),
+('00000000-0000-4002-8000-000000000002','Casual Men''s Leather Belt — Edition 02','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/b12c3690-8406-483e-8aa0-69d7afde3fce/belt-v3-2.jpg',3002,false,3),
+('00000000-0000-4002-8000-000000000003','Casual Men''s Leather Belt — Edition 03','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/01a8d2f3-3012-4fae-875a-14bbbf230397/belt-v3-3.jpg',3003,false,3),
+('00000000-0000-4002-8000-000000000004','Casual Men''s Leather Belt — Edition 04','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/be102ae5-ec2b-4ef4-84f2-9da274fa7130/belt-v3-4.jpg',3004,false,3),
+('00000000-0000-4002-8000-000000000005','Casual Men''s Leather Belt — Edition 05','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/7aaa31e3-9e15-4623-90b5-4a8283d4d0bf/belt-v3-5.jpg',3005,false,3),
+('00000000-0000-4002-8000-000000000006','Casual Men''s Leather Belt — Edition 06','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/50b3bb7c-2b50-415d-bfed-e9003f1a1be2/belt-v3-6.jpg',3006,false,3),
+('00000000-0000-4002-8000-000000000007','Casual Men''s Leather Belt — Edition 07','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/e16e1345-f7b6-4cd2-a0c5-26597675dbd9/belt-v3-7.jpg',3007,false,3),
+('00000000-0000-4002-8000-000000000008','Casual Men''s Leather Belt — Edition 08','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/886583b5-ee90-4692-9cc4-a8d57dc7f301/belt-v3-8.jpg',3008,false,3),
+('00000000-0000-4002-8000-000000000009','Casual Men''s Leather Belt — Edition 09','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/96280a6a-9c4e-47f7-9274-3740879507ba/belt-v3-9.png',3009,false,3),
+('00000000-0000-4002-8000-000000000010','Casual Men''s Leather Belt — Edition 10','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/e2861e74-d513-4688-b5b3-c34f66d7d3d9/belt-v3-10.png',3010,false,3),
+('00000000-0000-4002-8000-000000000011','Casual Men''s Leather Belt — Edition 11','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/4b87d4e0-270e-47ea-a993-1fcefaa80b94/belt-v3-11.png',3011,false,3),
+('00000000-0000-4002-8000-000000000012','Casual Men''s Leather Belt — Edition 12','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/572a6d76-3e65-4e5b-8e51-201641265caf/belt-v3-12.png',3012,false,3),
+('00000000-0000-4002-8000-000000000013','Casual Men''s Leather Belt — Edition 13','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/a076b94b-6802-46a9-af07-c6a666fb7337/belt-v3-13.png',3013,false,3),
+('00000000-0000-4002-8000-000000000014','Casual Men''s Leather Belt — Edition 14','Handcrafted full-grain leather belt for men — refined finish for daily wear.','mens-belts',14900,'AED','/__l5e/assets-v1/fa3c7f5d-33ea-4202-9ba7-ab06389b2b57/belt-v3-14.png',3014,false,3);

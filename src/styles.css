@@ -1,0 +1,139 @@
+@import "tailwindcss" source(none);
+@source "../src";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * CUEROCAZA — Italian leather brand design system
+ * Palette: dark espresso, warm cream, cognac accent, gilded gold.
+ * Display font: Fraunces (serif, refined). Body: Manrope.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-display: "Fraunces", "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-cognac: var(--cognac);
+  --color-cognac-foreground: var(--cognac-foreground);
+  --color-cream: var(--cream);
+  --color-espresso: var(--espresso);
+  --color-gilt: var(--gilt);
+}
+
+:root {
+  --radius: 0.25rem;
+
+  /* Warm cream paper */
+  --background: oklch(0.965 0.012 80);
+  --foreground: oklch(0.22 0.025 40);
+
+  --card: oklch(0.985 0.008 80);
+  --card-foreground: oklch(0.22 0.025 40);
+  --popover: oklch(0.985 0.008 80);
+  --popover-foreground: oklch(0.22 0.025 40);
+
+  /* Espresso */
+  --primary: oklch(0.24 0.032 40);
+  --primary-foreground: oklch(0.965 0.012 80);
+
+  --secondary: oklch(0.92 0.018 75);
+  --secondary-foreground: oklch(0.24 0.032 40);
+  --muted: oklch(0.92 0.018 75);
+  --muted-foreground: oklch(0.46 0.025 50);
+  --accent: oklch(0.88 0.035 65);
+  --accent-foreground: oklch(0.24 0.032 40);
+
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.86 0.02 70);
+  --input: oklch(0.86 0.02 70);
+  --ring: oklch(0.55 0.12 50);
+
+  --cognac: oklch(0.55 0.13 48);
+  --cognac-foreground: oklch(0.98 0.008 80);
+  --cream: oklch(0.965 0.012 80);
+  --espresso: oklch(0.18 0.028 40);
+  --gilt: oklch(0.78 0.09 80);
+
+  --gradient-warm: linear-gradient(135deg, var(--cream) 0%, oklch(0.93 0.025 70) 100%);
+  --gradient-espresso: linear-gradient(160deg, oklch(0.22 0.03 40) 0%, oklch(0.14 0.02 35) 100%);
+  --shadow-warm: 0 30px 80px -40px oklch(0.18 0.03 40 / 0.45);
+  --shadow-elev: 0 2px 4px oklch(0.18 0.03 40 / 0.06), 0 20px 40px -20px oklch(0.18 0.03 40 / 0.18);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: var(--cognac);
+    color: var(--cognac-foreground);
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .bg-espresso { background-color: var(--espresso); color: var(--cream); }
+  .bg-cream { background-color: var(--cream); }
+  .bg-gradient-warm { background-image: var(--gradient-warm); }
+  .bg-gradient-espresso { background-image: var(--gradient-espresso); }
+  .shadow-warm { box-shadow: var(--shadow-warm); }
+  .shadow-elev { box-shadow: var(--shadow-elev); }
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cognac);
+  }
+  .rule {
+    height: 1px;
+    width: 3rem;
+    background: var(--cognac);
+    display: inline-block;
+  }
+}

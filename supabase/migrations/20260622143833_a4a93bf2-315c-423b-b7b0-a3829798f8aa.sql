@@ -1,0 +1,1 @@
+UPDATE public.products SET currency = 'INR', price_cents = (price_cents * 90);
