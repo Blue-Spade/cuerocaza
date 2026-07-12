@@ -23,8 +23,8 @@ export const listApprovedReviews = createServerFn({ method: "GET" }).handler(asy
   try {
     const { createClient } = await import("@supabase/supabase-js");
     const supabase = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_PUBLISHABLE_KEY!,
+      process.env.SUPABASE_URL || "https://zmykxhuyfgeygmaysism.supabase.co",
+      process.env.SUPABASE_PUBLISHABLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpteWt4aHV5ZmdleWdtYXlzaXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3Mjk0ODIsImV4cCI6MjA5ODMwNTQ4Mn0.OKgPnUz2UulP970Uflu7jnySrkqbBChnNQdVh6caEF8",
       { auth: { storage: undefined, persistSession: false, autoRefreshToken: false } },
     );
     const { data, error } = await supabase
