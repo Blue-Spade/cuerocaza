@@ -61,15 +61,13 @@ function AuthPage() {
   async function handleGoogle() {
     try {
       setLoading(true);
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: `${window.location.origin}/auth`,
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/admin`,
+        },
       });
-      if (result.error) {
-        toast.error(result.error.message || "Google sign-in failed.");
-        return;
-      }
-      if (result.redirected) return;
-      navigate({ to: "/admin" });
+      if (error) throw error;
     } catch (err) {
       toast.error((err as Error).message);
     } finally {
@@ -81,10 +79,15 @@ function AuthPage() {
     <div className="mx-auto flex max-w-md flex-col items-center px-6 py-24">
       <span className="eyebrow">Account</span>
       <h1 className="mt-3 font-display text-4xl">{mode === "signin" ? "Welcome back" : "Create account"}</h1>
-
+      
       <button onClick={handleGoogle} className="mt-8 w-full border border-input bg-card px-4 py-3 text-sm font-medium hover:border-cognac">
         Continue with Google
       </button>
+
+      <div className="mt-4 w-full p-4 border border-cognac/20 bg-cognac/5 text-xs text-foreground/80 leading-relaxed text-center md:text-left">
+        <span className="font-semibold text-cognac block mb-1">Google Login Settings</span>
+        If Google login fails with a <em>'missing OAuth secret'</em> error, please ensure that Google is enabled and configured with your credentials in your <strong>Supabase Dashboard &rarr; Auth &rarr; Providers &rarr; Google</strong>.
+      </div>
 
       <div className="my-6 flex w-full items-center gap-3 text-xs text-muted-foreground">
         <span className="h-px flex-1 bg-border" />OR<span className="h-px flex-1 bg-border" />
