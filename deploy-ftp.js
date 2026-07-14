@@ -3,6 +3,7 @@ import { spawn } from "child_process";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 // Load .env variables
 dotenv.config();
@@ -41,6 +42,35 @@ async function deploy() {
     // We set NITRO_PRESET to node-server so that the Nitro output is built for a standard Node environment
     await runCommand("bun", ["run", "build"], { NITRO_PRESET: "node-server" });
     console.log("\n✔ Build completed successfully!");
+
+    // Remove static images locally to speed up FTP upload and avoid socket errors
+    console.log("\n--- OPTIMIZATION: Removing local static images to speed up upload ---");
+    const removeStaticImages = (dir) => {
+      if (!fs.existsSync(dir)) return;
+      const files = fs.readdirSync(dir);
+      for (const file of files) {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+        if (stat.isDirectory()) {
+          removeStaticImages(filePath);
+        } else {
+          const ext = path.extname(file).toLowerCase();
+          if ([".jpg", ".jpeg", ".png", ".webp", ".gif"].includes(ext)) {
+            fs.unlinkSync(filePath);
+          }
+        }
+      }
+    };
+    removeStaticImages(path.join(__dirname, ".output", "public"));
+    console.log("✔ Local static images removed from build folder. Only code assets will be uploaded.");
+
+    // Create tmp/restart.txt to force Passenger to reload the application on cPanel
+    const tmpDir = path.join(__dirname, ".output", "tmp");
+    if (!fs.existsSync(tmpDir)) {
+      fs.mkdirSync(tmpDir, { recursive: true });
+    }
+    fs.writeFileSync(path.join(tmpDir, "restart.txt"), String(Date.now()));
+    console.log("✔ Created tmp/restart.txt to force Phusion Passenger reload.");
   } catch (error) {
     console.error("\n❌ Build failed. Deployment aborted.", error.message);
     process.exit(1);
@@ -68,15 +98,28 @@ async function deploy() {
   client.ftp.verbose = true;
 
   try {
+    console.log("Connecting using plain FTP...");
     await client.access({
       host,
       user,
       password,
       port,
-      secure: false, // Set to true or "implicit" if YouStable requires FTP over SSL (FTPS)
+      secure: false,
     });
+    console.log("\n✔ Connected to FTP server successfully using plain FTP!");
 
-    console.log("\n✔ Connected to FTP server successfully!");
+    // Create/touch /tmp/restart.txt at the FTP account root to force cPanel Passenger reload
+    try {
+      console.log("\n--- STEP 2.5: Creating restart.txt at FTP root to force Passenger reload ---");
+      await client.ensureDir("tmp");
+      const localRestartFile = path.join(__dirname, ".output", "tmp", "restart.txt");
+      await client.uploadFrom(localRestartFile, "restart.txt");
+      console.log("✔ Uploaded restart.txt to /tmp/restart.txt");
+    } catch (rootTmpError) {
+      console.log(`Could not create /tmp/restart.txt at root: ${rootTmpError.message}. Proceeding...`);
+    }
+    // Return to root before changing to targetDir
+    await client.cd("/");
 
     // 3. Navigate to target folder
     console.log(`\n--- STEP 3: Ensuring destination directory exists ---`);

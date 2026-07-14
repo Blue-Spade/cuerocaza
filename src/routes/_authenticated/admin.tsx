@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -130,10 +130,15 @@ function AdminPage() {
       <div className="mx-auto max-w-md px-6 py-24 text-center">
         <span className="eyebrow">Admin</span>
         <h1 className="mt-3 font-display text-3xl">Access denied</h1>
-        <p className="mt-4 text-sm text-muted-foreground">
+        <p className="mt-4 text-sm text-muted-foreground mb-6">
           This area is restricted to the registered owner. Sign in with the owner email to continue.
         </p>
-        <button onClick={signOut} className="mt-6 text-xs text-muted-foreground underline">Sign out</button>
+        <div className="flex flex-col gap-4 items-center">
+          <Link to="/my-orders" className="text-sm font-semibold uppercase tracking-wider text-cognac underline-offset-4 hover:underline">
+            Go to My Orders
+          </Link>
+          <button onClick={signOut} className="text-xs text-muted-foreground underline">Sign out</button>
+        </div>
       </div>
     );
   }

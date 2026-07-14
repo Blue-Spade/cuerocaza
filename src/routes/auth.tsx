@@ -19,10 +19,16 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/admin" });
+      if (data.session) {
+        const isAdmin = data.session.user?.email?.toLowerCase() === "areebanasir415@gmail.com";
+        navigate({ to: isAdmin ? "/admin" : "/my-orders" });
+      }
     });
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" && session) navigate({ to: "/admin" });
+      if (event === "SIGNED_IN" && session) {
+        const isAdmin = session.user?.email?.toLowerCase() === "areebanasir415@gmail.com";
+        navigate({ to: isAdmin ? "/admin" : "/my-orders" });
+      }
     });
     return () => sub.subscription.unsubscribe();
   }, [navigate]);
@@ -31,21 +37,22 @@ function AuthPage() {
     e.preventDefault();
     setLoading(true);
     try {
+      const isAdmin = email.toLowerCase() === "areebanasir415@gmail.com";
       if (mode === "signin") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success("Welcome back.");
-        navigate({ to: "/admin" });
+        navigate({ to: isAdmin ? "/admin" : "/my-orders" });
       } else {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: `${window.location.origin}/admin` },
+          options: { emailRedirectTo: `${window.location.origin}/auth` },
         });
         if (error) throw error;
         if (data?.session) {
           toast.success("Welcome! Account created successfully.");
-          navigate({ to: "/admin" });
+          navigate({ to: isAdmin ? "/admin" : "/my-orders" });
         } else {
           toast.success("Account created! Please check your email for a verification link to confirm your account.");
           setMode("signin");
@@ -61,13 +68,10 @@ function AuthPage() {
   async function handleGoogle() {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}/admin`,
-        },
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: `${window.location.origin}/auth`,
       });
-      if (error) throw error;
+      if (result.error) throw result.error;
     } catch (err) {
       toast.error((err as Error).message);
     } finally {
@@ -83,11 +87,6 @@ function AuthPage() {
       <button onClick={handleGoogle} className="mt-8 w-full border border-input bg-card px-4 py-3 text-sm font-medium hover:border-cognac">
         Continue with Google
       </button>
-
-      <div className="mt-4 w-full p-4 border border-cognac/20 bg-cognac/5 text-xs text-foreground/80 leading-relaxed text-center md:text-left">
-        <span className="font-semibold text-cognac block mb-1">Google Login Settings</span>
-        If Google login fails with a <em>'missing OAuth secret'</em> error, please ensure that Google is enabled and configured with your credentials in your <strong>Supabase Dashboard &rarr; Auth &rarr; Providers &rarr; Google</strong>.
-      </div>
 
       <div className="my-6 flex w-full items-center gap-3 text-xs text-muted-foreground">
         <span className="h-px flex-1 bg-border" />OR<span className="h-px flex-1 bg-border" />
