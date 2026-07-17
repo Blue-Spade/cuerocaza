@@ -1,22 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import cardHolder2New from "@/assets/uploads/card-holder-10-3.jpeg.asset.json";
-import belt1 from "@/assets/belts/belt-v3-1.asset.json";
-import belt2 from "@/assets/belts/belt-v3-2.asset.json";
-import belt3 from "@/assets/belts/belt-v3-3.asset.json";
-import belt4 from "@/assets/belts/belt-v3-4.asset.json";
-import belt5 from "@/assets/belts/belt-v3-5.asset.json";
-import belt6 from "@/assets/belts/belt-v3-6.asset.json";
-import belt7 from "@/assets/belts/belt-v3-7.asset.json";
-import belt8 from "@/assets/belts/belt-v3-8.asset.json";
-import belt9 from "@/assets/belts/belt-v3-9.asset.json";
-import belt10 from "@/assets/belts/belt-v3-10.asset.json";
-import belt11 from "@/assets/belts/belt-v3-11.asset.json";
-import belt12 from "@/assets/belts/belt-v3-12.asset.json";
-import belt13 from "@/assets/belts/belt-v3-13.asset.json";
-import belt14 from "@/assets/belts/belt-v3-14.asset.json";
-
-const beltAssets = [belt1, belt2, belt3, belt4, belt5, belt6, belt7, belt8, belt9, belt10, belt11, belt12, belt13, belt14];
-
 
 export type Product = {
   id: string;
@@ -33,6 +15,38 @@ export type Product = {
   offer_starts_at: string | null;
   offer_ends_at: string | null;
 };
+
+export function resolveImageUrl(url: string | null | undefined): string {
+  if (!url) return "";
+  if (url.startsWith("/__l5e/assets-v1/")) {
+    const parts = url.split("/");
+    const filename = parts[parts.length - 1];
+    
+    if (filename.startsWith("belt-new-")) {
+      const numPart = filename.replace("belt-new-", "");
+      return `/products/belts/belt-v3-${numPart}`;
+    }
+    if (filename.startsWith("belt-v3-")) {
+      return `/products/belts/${filename}`;
+    }
+    if (filename.includes("card-holder-10-4.jpeg")) {
+      return `/products/card-holders/card-holder-10.jpeg`;
+    }
+    if (filename.includes("card-holder-10-3.jpeg") || filename.includes("card-holder-10-2.jpeg")) {
+      return `/products/card-holders/card-holder-2.jpeg`;
+    }
+    if (filename.startsWith("wallet-")) {
+      return `/products/wallets/${filename}`;
+    }
+    if (filename.startsWith("card-holder-")) {
+      return `/products/card-holders/${filename}`;
+    }
+    if (filename.startsWith("belt-")) {
+      return `/products/belts/${filename}`;
+    }
+  }
+  return url;
+}
 
 export function isOfferActive(p: Pick<Product, "offer_price_cents" | "offer_starts_at" | "offer_ends_at">, now: Date = new Date()): boolean {
   if (p.offer_price_cents == null) return false;
@@ -67,7 +81,7 @@ const walletProducts: Product[] = Array.from({ length: 25 }, (_, index) => {
 
 const cardHolderProducts: Product[] = [
   ["00000000-0000-4001-8000-000000000001", "Brown Crunch Leather Unisex Card Holder", "/products/card-holders/card-holder-1.jpeg", 2001],
-  ["00000000-0000-4001-8000-000000000002", "Tan Nappa Leather Unisex Card Holder with  cash keeping compartment", cardHolder2New.url, 2002],
+  ["00000000-0000-4001-8000-000000000002", "Tan Nappa Leather Unisex Card Holder with  cash keeping compartment", "/products/card-holders/card-holder-2.jpeg", 2002],
   ["00000000-0000-4001-8000-000000000003", "Tan Nappa Leather Unisex Card Holder", "/products/card-holders/card-holder-3.jpeg", 2003],
   ["00000000-0000-4001-8000-000000000004", "Black & Brown Nappa Leather Unisex Card Holder with cash compartment & elastic gripper.", "/products/card-holders/card-holder-4.jpeg", 2004],
   ["00000000-0000-4001-8000-000000000005", "Black Nappa Leather Unisex Magic Card Holder with cash compartment", "/products/card-holders/card-holder-5.jpeg", 2005],
@@ -93,8 +107,9 @@ const cardHolderProducts: Product[] = [
   offer_ends_at: null,
 }));
 
-const beltProducts: Product[] = beltAssets.map((asset, i) => {
+const beltProducts: Product[] = Array.from({ length: 14 }, (_, i) => {
   const edition = i + 1;
+  const ext = edition <= 8 ? "jpg" : "png";
   return {
     id: `00000000-0000-4002-8000-${String(edition).padStart(12, "0")}`,
     name: `Casual Men's Leather Belt — Edition ${String(edition).padStart(2, "0")}`,
@@ -102,7 +117,7 @@ const beltProducts: Product[] = beltAssets.map((asset, i) => {
     category: "mens-belts",
     price_cents: 14900,
     currency: "AED",
-    image_url: asset.url,
+    image_url: `/products/belts/belt-v3-${edition}.${ext}`,
     sort_order: 3000 + edition,
     featured: false,
     stock: 3,
@@ -113,7 +128,6 @@ const beltProducts: Product[] = beltAssets.map((asset, i) => {
 });
 
 const fallbackProducts: Product[] = [...walletProducts, ...cardHolderProducts, ...beltProducts].sort((a, b) => a.sort_order - b.sort_order);
-
 
 export const listProducts = createServerFn({ method: "GET" }).handler(async () => {
   try {
@@ -128,7 +142,11 @@ export const listProducts = createServerFn({ method: "GET" }).handler(async () =
       .select("id,name,description,category,price_cents,currency,image_url,sort_order,featured,stock,offer_price_cents,offer_starts_at,offer_ends_at")
       .order("sort_order", { ascending: true });
     if (error) throw new Error(error.message);
-    return ((data ?? []) as Product[]).length ? (data as Product[]) : fallbackProducts;
+    const resolved = (data ?? []).map(p => ({
+      ...p,
+      image_url: resolveImageUrl(p.image_url)
+    }));
+    return resolved.length ? (resolved as Product[]) : fallbackProducts;
   } catch (error) {
     console.error("[products] Falling back to bundled catalog", error);
     return fallbackProducts;

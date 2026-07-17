@@ -1,4 +1,4 @@
-const EMAIL = "areebanasir415@gmail.com";
+const EMAIL = "cuerocaza001@gmail.com";
 const SUBJECT = "Inquiry from Cuerocaza website";
 const BODY = "Hello Cuerocaza,\n\nI'd like to know more about your leather goods.\n\nRegards,";
 

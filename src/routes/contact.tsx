@@ -32,7 +32,7 @@ function ContactPage() {
   const whatsAppHref = `https://wa.me/${whatsAppPhone}?text=${whatsAppMessage}`;
   const addressLine = "39 6th St - Al Murar - Dubai - United Arab Emirates";
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressLine)}`;
-  const contactEmail = "areebanasir415@gmail.com";
+  const contactEmail = "cuerocaza001@gmail.com";
   const emailSubject = encodeURIComponent("Inquiry from Cuerocaza website");
   const emailBody = encodeURIComponent("Hello Cuerocaza,\n\nI'd like to know more about your leather goods.\n\nRegards,");
   // Standard mailto works universally across devices and default mail apps.

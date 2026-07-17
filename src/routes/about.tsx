@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import storyImageAsset from "@/assets/uploads/our-story-poster.jpeg.asset.json";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -9,7 +8,7 @@ export const Route = createFileRoute("/about")({
       { property: "og:title", content: "Our Story — CUEROCAZA" },
       { property: "og:description", content: "From a small gift shop in Dubai Marina to a premier Italian leather brand serving the UAE." },
       { property: "og:url", content: "/about" },
-      { property: "og:image", content: storyImageAsset.url },
+      { property: "og:image", content: "/our-story-banner.jpeg" },
     ],
     links: [{ rel: "canonical", href: "/about" }],
   }),
@@ -114,7 +113,7 @@ function AboutPage() {
           {/* Photo at the top */}
           <div className="mb-12 overflow-hidden shadow-elev">
             <img
-              src={storyImageAsset.url}
+              src="/our-story-banner.jpeg"
               alt="From a small gift shop to handcrafted Italian leather — my journey in Dubai"
               className="w-full object-contain"
             />

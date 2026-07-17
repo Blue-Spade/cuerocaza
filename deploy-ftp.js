@@ -47,6 +47,9 @@ async function deploy() {
     console.log("\n--- OPTIMIZATION: Removing local static images to speed up upload ---");
     const removeStaticImages = (dir) => {
       if (!fs.existsSync(dir)) return;
+      if (dir.endsWith("products") || dir.includes("products" + path.sep)) {
+        return;
+      }
       const files = fs.readdirSync(dir);
       for (const file of files) {
         const filePath = path.join(dir, file);

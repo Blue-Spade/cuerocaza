@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ShoppingBag, Zap, X, ZoomIn } from "lucide-react";
 import { toast } from "sonner";
 import { useEffect, useMemo, useState } from "react";
-import { listProducts, isOfferActive, effectivePriceCents } from "@/lib/products.functions";
+import { listProducts, isOfferActive, effectivePriceCents, resolveImageUrl } from "@/lib/products.functions";
 import { useCart, formatPrice } from "@/lib/cart";
 import { useAllReviews, ProductReviewsBlock } from "@/components/ProductReviews";
 
@@ -113,12 +113,12 @@ function ProductsPage() {
                   
                   const handleAdd = () => {
                     if (outOfStock) return;
-                    add({ id: p.id, name: p.name, price_cents: priceNow, currency: p.currency, image_url: p.image_url });
+                    add({ id: p.id, name: p.name, price_cents: priceNow, currency: p.currency, image_url: resolveImageUrl(p.image_url) });
                     toast.success(`${p.name} added to cart`);
                   };
                   const handleBuy = () => {
                     if (outOfStock) return;
-                    add({ id: p.id, name: p.name, price_cents: priceNow, currency: p.currency, image_url: p.image_url });
+                    add({ id: p.id, name: p.name, price_cents: priceNow, currency: p.currency, image_url: resolveImageUrl(p.image_url) });
                     navigate({ to: "/checkout" });
                   };
                   return (
@@ -126,11 +126,11 @@ function ProductsPage() {
                       <div className="relative aspect-square overflow-hidden bg-secondary shadow-elev">
                         <button
                           type="button"
-                          onClick={() => setZoom({ src: p.image_url, alt: p.name })}
+                          onClick={() => setZoom({ src: resolveImageUrl(p.image_url), alt: p.name })}
                           className="absolute inset-0 h-full w-full cursor-zoom-in"
                           aria-label={`View larger image of ${p.name}`}
                         >
-                          <img src={p.image_url} alt={p.name} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                          <img src={resolveImageUrl(p.image_url)} alt={p.name} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                         </button>
                         <span className="pointer-events-none absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-full bg-espresso/80 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-cream opacity-0 shadow transition group-hover:opacity-100">
                           <ZoomIn className="h-3 w-3" /> Zoom

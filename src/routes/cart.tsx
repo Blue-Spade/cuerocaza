@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useCart, formatPrice } from "@/lib/cart";
+import { resolveImageUrl } from "@/lib/products.functions";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({ meta: [{ title: "Your Cart — Cuerocaza Italy" }] }),
@@ -25,7 +26,7 @@ function CartPage() {
           <div className="mt-10 divide-y border-y">
             {items.map((i) => (
               <div key={i.id} className="flex items-center gap-4 py-5">
-                <img src={i.image_url} alt={i.name} className="h-20 w-20 rounded object-cover" />
+                <img src={resolveImageUrl(i.image_url)} alt={i.name} className="h-20 w-20 rounded object-cover" />
                 <div className="flex-1 min-w-0">
                   <div className="font-display text-lg truncate">{i.name}</div>
                   <div className="text-sm text-cognac">{formatPrice(i.price_cents, i.currency)}</div>

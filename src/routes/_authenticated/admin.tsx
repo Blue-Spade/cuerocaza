@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { listProducts, type Product } from "@/lib/products.functions";
+import { listProducts, type Product, resolveImageUrl } from "@/lib/products.functions";
 import { isAdmin, claimFirstAdmin, adminCreateProduct, adminUpdateProduct, adminDeleteProduct, adminListInquiries, requestAdminEmailChange, confirmAdminEmailChange } from "@/lib/admin.functions";
 import { adminListAllReviews, adminSetReviewApproved, adminDeleteReview, type Review } from "@/lib/reviews.functions";
 
@@ -181,7 +181,7 @@ function AdminPage() {
                 className="mt-1 block w-full text-sm file:mr-3 file:border file:border-input file:bg-background file:px-3 file:py-1.5 file:text-xs file:uppercase file:tracking-wider hover:file:bg-muted"
               />
               {form.image_url && (
-                <img src={form.image_url} alt="" className="mt-3 h-24 w-24 object-cover border border-border" />
+                <img src={resolveImageUrl(form.image_url)} alt="" className="mt-3 h-24 w-24 object-cover border border-border" />
               )}
             </div>
             <Input label="Description" value={form.description} onChange={(v) => setForm({ ...form, description: v })} />
@@ -251,7 +251,7 @@ function AdminPage() {
           <ul className="mt-5 divide-y divide-border border border-border bg-card">
             {(productsQuery.data ?? []).map((p: Product) => (
               <li key={p.id} className="flex items-center gap-4 p-3">
-                <img src={p.image_url} alt="" className="h-14 w-14 object-cover" />
+                <img src={resolveImageUrl(p.image_url)} alt="" className="h-14 w-14 object-cover" />
                 <div className="flex-1 min-w-0">
                   <div className="truncate font-medium">{p.name}</div>
                   <div className="text-xs text-muted-foreground">

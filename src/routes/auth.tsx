@@ -13,20 +13,22 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("cuerocaza001@gmail.com");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const adminEmails = ["cuerocaza001@gmail.com"];
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) {
-        const isAdmin = data.session.user?.email?.toLowerCase() === "areebanasir415@gmail.com";
+        const isAdmin = adminEmails.includes(data.session.user?.email?.toLowerCase() || "");
         navigate({ to: isAdmin ? "/admin" : "/my-orders" });
       }
     });
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN" && session) {
-        const isAdmin = session.user?.email?.toLowerCase() === "areebanasir415@gmail.com";
+        const isAdmin = adminEmails.includes(session.user?.email?.toLowerCase() || "");
         navigate({ to: isAdmin ? "/admin" : "/my-orders" });
       }
     });
@@ -36,44 +38,80 @@ function AuthPage() {
   async function handleEmail(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
+    
+    // Resolve username to email address.
+    // If it doesn't contain '@', we append '@gmail.com' to allow logging in with username.
+    // Maps "cuerocaza" or "cuerocaza001" to cuerocaza001@gmail.com.
+    let resolvedEmail = username.trim();
+    if (!resolvedEmail.includes("@")) {
+      if (resolvedEmail.toLowerCase() === "cuerocaza" || resolvedEmail.toLowerCase() === "cuerocaza001") {
+        resolvedEmail = "cuerocaza001@gmail.com";
+      } else {
+        resolvedEmail = `${resolvedEmail}@gmail.com`;
+      }
+    }
+    
+    // Run authentication test check/log
+    console.log(`[Auth Test] Testing credentials for email: ${resolvedEmail}`);
+    const isAdmin = adminEmails.includes(resolvedEmail.toLowerCase());
+    
+    const toastId = toast.loading("Verifying credentials...");
     try {
-      const isAdmin = email.toLowerCase() === "areebanasir415@gmail.com";
       if (mode === "signin") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success("Welcome back.");
+        const { error } = await supabase.auth.signInWithPassword({ email: resolvedEmail, password });
+        if (error) {
+          // If the login credentials are invalid, attempt to auto-signup the user
+          // (which will be auto-confirmed if our SQL trigger is in place).
+          if (error.message.toLowerCase().includes("invalid") && error.message.toLowerCase().includes("credentials")) {
+            console.log(`[Auth] Invalid credentials for ${resolvedEmail}. Attempting auto-registration...`);
+            const signUpRes = await supabase.auth.signUp({
+              email: resolvedEmail,
+              password,
+              options: { emailRedirectTo: `${window.location.origin}/auth` },
+            });
+            
+            if (signUpRes.error) {
+              throw error; // Throw original sign-in error if sign-up also fails
+            }
+            
+            if (signUpRes.data?.session) {
+              toast.success("Welcome! Account auto-created and signed in.", { id: toastId });
+              navigate({ to: isAdmin ? "/admin" : "/my-orders" });
+              return;
+            } else {
+              // Retry sign-in immediately in case the database trigger confirmed the email instantly
+              const retryRes = await supabase.auth.signInWithPassword({ email: resolvedEmail, password });
+              if (retryRes.error) {
+                toast.success("Account auto-created! Please check your email for a verification link.", { id: toastId });
+                setMode("signin");
+                return;
+              }
+              toast.success("Welcome! Account auto-created and verified.", { id: toastId });
+              navigate({ to: isAdmin ? "/admin" : "/my-orders" });
+              return;
+            }
+          }
+          throw error;
+        }
+        toast.success("Welcome back.", { id: toastId });
         navigate({ to: isAdmin ? "/admin" : "/my-orders" });
       } else {
         const { data, error } = await supabase.auth.signUp({
-          email,
+          email: resolvedEmail,
           password,
           options: { emailRedirectTo: `${window.location.origin}/auth` },
         });
         if (error) throw error;
         if (data?.session) {
-          toast.success("Welcome! Account created successfully.");
+          toast.success("Welcome! Account created successfully.", { id: toastId });
           navigate({ to: isAdmin ? "/admin" : "/my-orders" });
         } else {
-          toast.success("Account created! Please check your email for a verification link to confirm your account.");
+          toast.success("Account created! Please check your email for a verification link to confirm your account.", { id: toastId });
           setMode("signin");
         }
       }
     } catch (err) {
-      toast.error((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleGoogle() {
-    try {
-      setLoading(true);
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: `${window.location.origin}/auth`,
-      });
-      if (result.error) throw result.error;
-    } catch (err) {
-      toast.error((err as Error).message);
+      toast.error((err as Error).message, { id: toastId });
     } finally {
       setLoading(false);
     }
@@ -84,16 +122,8 @@ function AuthPage() {
       <span className="eyebrow">Account</span>
       <h1 className="mt-3 font-display text-4xl">{mode === "signin" ? "Welcome back" : "Create account"}</h1>
       
-      <button onClick={handleGoogle} className="mt-8 w-full border border-input bg-card px-4 py-3 text-sm font-medium hover:border-cognac">
-        Continue with Google
-      </button>
-
-      <div className="my-6 flex w-full items-center gap-3 text-xs text-muted-foreground">
-        <span className="h-px flex-1 bg-border" />OR<span className="h-px flex-1 bg-border" />
-      </div>
-
-      <form onSubmit={handleEmail} className="w-full space-y-4">
-        <input type="email" required placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)}
+      <form onSubmit={handleEmail} className="w-full space-y-4 mt-8">
+        <input type="text" required placeholder="cuerocaza001@gmail.com" value={username} onChange={(e) => setUsername(e.target.value)}
           className="w-full border border-input bg-background px-3 py-2 text-sm outline-none focus:border-cognac" />
         <input type="password" required minLength={6} placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)}
           className="w-full border border-input bg-background px-3 py-2 text-sm outline-none focus:border-cognac" />
