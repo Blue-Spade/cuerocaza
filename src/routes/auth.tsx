@@ -13,7 +13,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [username, setUsername] = useState("cuerocaza001@gmail.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -39,17 +39,7 @@ function AuthPage() {
     e.preventDefault();
     setLoading(true);
     
-    // Resolve username to email address.
-    // If it doesn't contain '@', we append '@gmail.com' to allow logging in with username.
-    // Maps "cuerocaza" or "cuerocaza001" to cuerocaza001@gmail.com.
-    let resolvedEmail = username.trim();
-    if (!resolvedEmail.includes("@")) {
-      if (resolvedEmail.toLowerCase() === "cuerocaza" || resolvedEmail.toLowerCase() === "cuerocaza001") {
-        resolvedEmail = "cuerocaza001@gmail.com";
-      } else {
-        resolvedEmail = `${resolvedEmail}@gmail.com`;
-      }
-    }
+    const resolvedEmail = email.trim();
     
     // Run authentication test check/log
     console.log(`[Auth Test] Testing credentials for email: ${resolvedEmail}`);
@@ -123,7 +113,7 @@ function AuthPage() {
       <h1 className="mt-3 font-display text-4xl">{mode === "signin" ? "Welcome back" : "Create account"}</h1>
       
       <form onSubmit={handleEmail} className="w-full space-y-4 mt-8">
-        <input type="text" required placeholder="cuerocaza001@gmail.com" value={username} onChange={(e) => setUsername(e.target.value)}
+        <input type="email" required placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)}
           className="w-full border border-input bg-background px-3 py-2 text-sm outline-none focus:border-cognac" />
         <input type="password" required minLength={6} placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)}
           className="w-full border border-input bg-background px-3 py-2 text-sm outline-none focus:border-cognac" />
