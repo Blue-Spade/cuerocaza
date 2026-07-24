@@ -94,6 +94,7 @@ export function SiteFooter() {
         <div>
           <h4 className="eyebrow text-gilt">Explore</h4>
           <ul className="mt-4 space-y-2 text-sm text-cream/80">
+            <li><Link to="/blog">Journal &amp; Stories</Link></li>
             <li><Link to="/products">Italian Leather Wallets</Link></li>
             <li><Link to="/products">Passport Covers</Link></li>
             <li><Link to="/products">Personalised Gifts</Link></li>
@@ -104,6 +105,7 @@ export function SiteFooter() {
           <h4 className="eyebrow text-gilt">House</h4>
           <ul className="mt-4 space-y-2 text-sm text-cream/80">
             <li><Link to="/products">Collection</Link></li>
+            <li><Link to="/blog">Journal</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
         </div>

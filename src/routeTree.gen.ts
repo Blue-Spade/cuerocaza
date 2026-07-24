@@ -22,6 +22,8 @@ import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as AuthenticatedMyOrdersRouteImport } from './routes/_authenticated/my-orders'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
@@ -89,6 +91,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedMyOrdersRoute = AuthenticatedMyOrdersRouteImport.update({
   id: '/my-orders',
   path: '/my-orders',
@@ -115,6 +127,8 @@ export interface FileRoutesByFullPath {
   '/sketches': typeof SketchesRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/my-orders': typeof AuthenticatedMyOrdersRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -131,6 +145,8 @@ export interface FileRoutesByTo {
   '/sketches': typeof SketchesRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/my-orders': typeof AuthenticatedMyOrdersRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -149,6 +165,8 @@ export interface FileRoutesById {
   '/sketches': typeof SketchesRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/my-orders': typeof AuthenticatedMyOrdersRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -167,6 +185,8 @@ export interface FileRouteTypes {
     | '/sketches'
     | '/admin'
     | '/my-orders'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -183,6 +203,8 @@ export interface FileRouteTypes {
     | '/sketches'
     | '/admin'
     | '/my-orders'
+    | '/blog/$slug'
+    | '/blog'
   id:
     | '__root__'
     | '/'
@@ -200,6 +222,8 @@ export interface FileRouteTypes {
     | '/sketches'
     | '/_authenticated/admin'
     | '/_authenticated/my-orders'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -216,6 +240,8 @@ export interface RootRouteChildren {
   ShowroomRoute: typeof ShowroomRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SketchesRoute: typeof SketchesRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -311,6 +337,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/my-orders': {
       id: '/_authenticated/my-orders'
       path: '/my-orders'
@@ -355,6 +395,8 @@ const rootRouteChildren: RootRouteChildren = {
   ShowroomRoute: ShowroomRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SketchesRoute: SketchesRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -7,6 +7,7 @@ const logoUrl = "/logo-genuine-leather.jpeg";
 const links = [
   { to: "/", label: "Home" },
   { to: "/products", label: "Collection" },
+  { to: "/blog", label: "Journal" },
   { to: "/contact", label: "Contact" },
 ] as const;
 

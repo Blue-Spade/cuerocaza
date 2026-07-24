@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Building2, Truck, ShieldCheck, Banknote } from "lucide-react";
+import { Building2, Truck, ShieldCheck, Banknote, ArrowRight, BookOpen } from "lucide-react";
 import showroomImg from "@/assets/scenes/showroom-1.jpg";
 const heroImg = "/hero-banner-main.jpeg";
 const storyImg = "/our-story-banner.jpeg";
+const blogHeroImg = "/spain-world-cup-blog.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
