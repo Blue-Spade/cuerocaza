@@ -136,4 +136,7 @@
     background: var(--cognac);
     display: inline-block;
   }
+  .font-arabic {
+    font-family: "Cairo", "Manrope", system-ui, sans-serif;
+  }
 }

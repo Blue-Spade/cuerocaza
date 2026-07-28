@@ -367,17 +367,6 @@ function BlogPostDetail() {
           <div className="text-sm text-gilt italic font-display">
             {post.content.signature.tagline}
           </div>
-          <p className="text-xs text-cream/70 pt-2 border-t border-cream/10">
-            Explore our artisanal leather range online at{" "}
-            <a
-              href="https://cuerocaza.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gilt hover:underline font-semibold inline-flex items-center gap-1"
-            >
-              cuerocaza.com <ExternalLink className="h-3 w-3" />
-            </a>
-          </p>
         </div>
 
         {/* LIKE BAR AT BOTTOM OF ARTICLE */}
@@ -511,14 +500,6 @@ function BlogPostDetail() {
             >
               Shop Collection
             </Link>
-            <a
-              href="https://cuerocaza.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-cognac text-cognac hover:bg-cognac/10 text-xs uppercase tracking-wider font-semibold px-6 py-3 transition inline-flex items-center gap-1.5"
-            >
-              Visit cuerocaza.com <ExternalLink className="h-3.5 w-3.5" />
-            </a>
           </div>
         </div>
       </div>

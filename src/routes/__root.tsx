@@ -16,6 +16,7 @@ import { SiteFooter } from "../components/SiteFooter";
 import { WhatsAppFloat } from "../components/WhatsAppFloat";
 import { GmailFloat } from "../components/GmailFloat";
 import { CartProvider } from "../lib/cart";
+import { LanguageProvider } from "../lib/i18n";
 import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
@@ -61,18 +62,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Cuerocaza Italy — Genuine Leather Accessories" },
-      { name: "description", content: "Hand-crafted Italian leather wallets and accessories, drawn, cut and stitched in our Tuscan atelier." },
-      { property: "og:title", content: "Cuerocaza Italy — Genuine Leather Accessories" },
-      { property: "og:description", content: "Hand-crafted Italian leather wallets and accessories, drawn, cut and stitched in our Tuscan atelier." },
+      { title: "CUEROCAZA — Genuine Italian Leather Dubai & Spain | www.cuerocaza.com" },
+      { name: "description", content: "CUEROCAZA — Genuine Italian Leather Wallets, Passport Covers & Bespoke Accessories in Dubai. Official website: www.cuerocaza.com." },
+      { property: "og:title", content: "CUEROCAZA — Genuine Italian Leather Dubai & Spain | www.cuerocaza.com" },
+      { property: "og:description", content: "Hand-crafted Italian leather wallets and accessories, tailored in Dubai. Born in Spain." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://www.cuerocaza.com" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@300;400;500;600;700&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@300;400;500;600;700&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -94,18 +96,20 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <CartProvider>
-        <div className="flex min-h-screen flex-col">
-          <SiteNav />
-          <main className="flex-1">
-            <Outlet />
-          </main>
-          <SiteFooter />
-          <WhatsAppFloat />
-          <GmailFloat />
-          <Toaster />
-        </div>
-      </CartProvider>
+      <LanguageProvider>
+        <CartProvider>
+          <div className="flex min-h-screen flex-col">
+            <SiteNav />
+            <main className="flex-1">
+              <Outlet />
+            </main>
+            <SiteFooter />
+            <WhatsAppFloat />
+            <GmailFloat />
+            <Toaster />
+          </div>
+        </CartProvider>
+      </LanguageProvider>
     </QueryClientProvider>
   );
 }

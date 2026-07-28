@@ -47,9 +47,6 @@ async function deploy() {
     console.log("\n--- OPTIMIZATION: Removing local static images to speed up upload ---");
     const removeStaticImages = (dir) => {
       if (!fs.existsSync(dir)) return;
-      if (dir.endsWith("products") || dir.includes("products" + path.sep)) {
-        return;
-      }
       const files = fs.readdirSync(dir);
       for (const file of files) {
         const filePath = path.join(dir, file);
@@ -58,14 +55,14 @@ async function deploy() {
           removeStaticImages(filePath);
         } else {
           const ext = path.extname(file).toLowerCase();
-          if ([".jpg", ".jpeg", ".png", ".webp", ".gif"].includes(ext)) {
+          if ([".jpg", ".jpeg", ".png", ".webp", ".gif"].includes(ext) && !file.includes("spain-world-cup-blog") && !file.includes("logo-genuine-leather") && !file.includes("hero-banner-main")) {
             fs.unlinkSync(filePath);
           }
         }
       }
     };
     removeStaticImages(path.join(__dirname, ".output", "public"));
-    console.log("✔ Local static images removed from build folder. Only code assets will be uploaded.");
+    console.log("✔ Heavy images removed from build folder. Only code assets and active branding images will be uploaded.");
 
     // Create tmp/restart.txt to force Passenger to reload the application on cPanel
     const tmpDir = path.join(__dirname, ".output", "tmp");
@@ -121,21 +118,120 @@ async function deploy() {
     } catch (rootTmpError) {
       console.log(`Could not create /tmp/restart.txt at root: ${rootTmpError.message}. Proceeding...`);
     }
-    // Return to root before changing to targetDir
-    await client.cd("/");
+    // Create valid root server.js entrypoint for Phusion Passenger on cPanel
+    const rootServerJsPath = path.join(__dirname, ".output", "server.js");
+    fs.writeFileSync(rootServerJsPath, `import './server/index.mjs';\n`);
+    console.log("✔ Created root server.js entrypoint importing ./server/index.mjs");
 
-    // 3. Navigate to target folder
-    console.log(`\n--- STEP 3: Ensuring destination directory exists ---`);
-    await client.ensureDir(targetDir);
-    console.log(`✔ Verified directory: ${targetDir}`);
+    // 3. Define target directories to sync on cPanel (both FTP root and nested /public_html)
+    const targetDirs = ["/", "/public_html"];
 
-    // 4. Upload build files
-    console.log("\n--- STEP 4: Uploading built files (.output/) ---");
-    console.log("This will upload 'public/', 'server/', and 'nitro.json' files.");
-    console.log("Uploading... (this may take a few moments depending on your network connection)");
+    for (const targetBase of targetDirs) {
+      console.log(`\n--- STEP 3: Syncing build to cPanel target: ${targetBase} ---`);
+      try {
+        await client.ensureDir(targetBase);
+      } catch (dirErr) {
+        console.log(`Notice for ${targetBase}:`, dirErr.message);
+      }
 
-    const localOutputDir = path.join(__dirname, ".output");
-    await client.uploadFromDir(localOutputDir);
+      // Delete stale index.html so Apache routes requests to Node.js server.js
+      try {
+        console.log(`Removing stale static index.html in ${targetBase}...`);
+        await client.ensureDir(targetBase);
+        await client.remove("index.html");
+        await client.remove("index.htm");
+        console.log(`✔ Removed stale index.html from ${targetBase}`);
+      } catch (staleErr) {
+        // ignore if file doesn't exist
+      }
+
+      // Wipe /assets completely to guarantee fresh chunk upload
+      try {
+        const assetsPath = targetBase === "/" ? "/assets" : `${targetBase}/assets`;
+        console.log(`Wiping remote assets directory: ${assetsPath}...`);
+        await client.ensureDir(assetsPath);
+        await client.clearWorkingDir();
+        console.log(`✔ Wiped ${assetsPath}`);
+      } catch (cleanErr) {
+        console.log("Notice: assets wipe:", cleanErr.message);
+      }
+
+      // Wipe legacy /public folder completely to eliminate old cached assets
+      try {
+        const legacyPublicPath = targetBase === "/" ? "/public" : `${targetBase}/public`;
+        console.log(`Wiping legacy remote public directory: ${legacyPublicPath}...`);
+        await client.ensureDir(legacyPublicPath);
+        await client.clearWorkingDir();
+        console.log(`✔ Wiped ${legacyPublicPath}`);
+      } catch (cleanErr) {
+        console.log("Notice: legacy public wipe:", cleanErr.message);
+      }
+
+      // Wipe /server completely to guarantee fresh server bundle upload
+      try {
+        const serverPath = targetBase === "/" ? "/server" : `${targetBase}/server`;
+        console.log(`Wiping remote server directory: ${serverPath}...`);
+        await client.ensureDir(serverPath);
+        await client.clearWorkingDir();
+        console.log(`✔ Wiped ${serverPath}`);
+      } catch (cleanErr) {
+        console.log("Notice: server wipe:", cleanErr.message);
+      }
+
+      // Upload public directory contents (assets, images, manifest)
+      const localPublicDir = path.join(__dirname, ".output", "public");
+      if (fs.existsSync(localPublicDir)) {
+        console.log(`Uploading static assets from .output/public to ${targetBase} ...`);
+        await client.ensureDir(targetBase);
+        await client.uploadFromDir(localPublicDir);
+      }
+
+      // Upload server directory contents to /server
+      const localServerDir = path.join(__dirname, ".output", "server");
+      if (fs.existsSync(localServerDir)) {
+        const serverPath = targetBase === "/" ? "/server" : `${targetBase}/server`;
+        console.log(`Uploading server bundle to ${serverPath} ...`);
+        await client.ensureDir(serverPath);
+        await client.uploadFromDir(localServerDir);
+      }
+
+      // Upload root server.js entrypoint
+      await client.ensureDir(targetBase);
+      if (fs.existsSync(rootServerJsPath)) {
+        await client.uploadFrom(rootServerJsPath, "server.js");
+        console.log(`✔ Uploaded valid server.js entrypoint to ${targetBase}`);
+      }
+
+      const localNitroJson = path.join(__dirname, ".output", "nitro.json");
+      if (fs.existsSync(localNitroJson)) {
+        await client.uploadFrom(localNitroJson, "nitro.json");
+      }
+
+      // Generate fresh .htaccess inside targetBase to force Passenger execution for root homepage as well as subroutes
+      try {
+        const htaccessContent = `# CUEROCAZA PASSENGER CONFIGURATION\n# Updated: ${new Date().toISOString()}\nDirectoryIndex server.js\nPassengerEnabled on\nPassengerAppType node\nPassengerStartupFile server.js\n\n<IfModule mod_rewrite.c>\n  RewriteEngine On\n  RewriteRule ^$ server.js [QSA,L]\n  RewriteCond %{REQUEST_FILENAME} !-f\n  RewriteCond %{REQUEST_FILENAME} !-d\n  RewriteRule ^(.*)$ server.js [QSA,L]\n</IfModule>\n`;
+        const localHtaccess = path.join(__dirname, ".output", ".htaccess");
+        fs.writeFileSync(localHtaccess, htaccessContent);
+        await client.ensureDir(targetBase);
+        await client.uploadFrom(localHtaccess, ".htaccess");
+        console.log(`✔ Uploaded updated .htaccess to ${targetBase}`);
+      } catch (htErr) {
+        console.log("Could not update .htaccess:", htErr.message);
+      }
+
+      // Touch tmp/restart.txt to force Passenger reload
+      try {
+        const tmpPath = targetBase === "/" ? "/tmp" : `${targetBase}/tmp`;
+        await client.ensureDir(tmpPath);
+        const localRestartFile = path.join(__dirname, ".output", "tmp", "restart.txt");
+        if (fs.existsSync(localRestartFile)) {
+          await client.uploadFrom(localRestartFile, "restart.txt");
+        }
+        console.log(`✔ Uploaded restart.txt to ${tmpPath}`);
+      } catch (tmpErr) {
+        console.log("Could not touch tmp/restart.txt:", tmpErr.message);
+      }
+    }
 
     console.log("\n====================================================");
     console.log("🎉 DEPLOYMENT COMPLETED SUCCESSFULLY!");

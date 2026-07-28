@@ -1,21 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Building2, Truck, ShieldCheck, Banknote, ArrowRight, BookOpen } from "lucide-react";
+import { Building2, Truck, ShieldCheck, Banknote, Globe, Sparkles, ExternalLink } from "lucide-react";
 import showroomImg from "@/assets/scenes/showroom-1.jpg";
+import { useLanguage } from "@/lib/i18n";
+import { VisitorCounter } from "@/components/VisitorCounter";
+
 const heroImg = "/hero-banner-main.jpeg";
 const storyImg = "/our-story-banner.jpeg";
-const blogHeroImg = "/spain-world-cup-blog.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Premium Italian Leather Accessories & Personalised Gifts in Dubai | CUEROCAZA" },
-      { name: "description", content: "Shop genuine Italian leather wallets, passport covers, personalised gifts, and corporate leather accessories in Dubai. Premium craftsmanship and custom leather products across the UAE." },
-      { property: "og:title", content: "Premium Italian Leather Accessories & Personalised Gifts in Dubai | CUEROCAZA" },
+      { title: "CUEROCAZA — Genuine Italian Leather Accessories & Personalised Gifts | www.cuerocaza.com" },
+      { name: "description", content: "Shop genuine Italian leather wallets, passport covers, personalised gifts, and corporate leather accessories in Dubai & UAE. Born in Spain, crafted in Dubai. Official site: www.cuerocaza.com." },
+      { property: "og:title", content: "CUEROCAZA — Genuine Italian Leather Accessories | www.cuerocaza.com" },
       { property: "og:description", content: "Genuine Italian leather wallets, personalised gifts, and corporate leather solutions across the UAE." },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://www.cuerocaza.com" },
       { property: "og:image", content: heroImg },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://www.cuerocaza.com" }],
   }),
   component: Home,
 });
@@ -26,19 +28,20 @@ const reviews = [
   { name: "Sara K.", city: "Sharjah", body: "The leather feels incredible and the patina after a few months is gorgeous. Worth every dirham." },
 ];
 
-const trustBadges = [
-  { icon: Truck, title: "Free Shipping in UAE", subtitle: "On every order" },
-  { icon: ShieldCheck, title: "1 Year Warranty", subtitle: "Craftsmanship guaranteed" },
-  { icon: Banknote, title: "COD Available", subtitle: "Pay on delivery" },
-];
-
-
 function Home() {
+  const { t } = useLanguage();
+
+  const trustBadges = [
+    { icon: Truck, title: t.craftedInDubai, subtitle: "Free UAE Delivery" },
+    { icon: ShieldCheck, title: t.spanishCraftsmanship, subtitle: "Full-Grain Italian Hides" },
+    { icon: Banknote, title: t.genuineItalianLeather, subtitle: "COD & Card Accepted" },
+  ];
+
   return (
     <div>
       {/* SECTION 1 — HERO */}
       <section className="relative isolate overflow-hidden bg-espresso">
-        <img src={heroImg} alt="From a small gift shop in Dubai Marina to premium Italian leather — Cuerocaza" className="block w-full h-auto" />
+        <img src={heroImg} alt="From a small gift shop in Dubai Marina to premium Italian leather — Cuerocaza www.cuerocaza.com" className="block w-full h-auto" />
       </section>
 
       {/* TRUST BADGES */}
@@ -58,14 +61,35 @@ function Home() {
         </div>
       </section>
 
-      {/* SECTION 4b — OUR STORY (full content) */}
+      {/* SECTION 2 — LIVE ROLLING VISITOR COUNTER FEATURE HIGHLIGHT */}
+      <section className="bg-espresso text-cream py-12 px-6 border-y border-cognac/30">
+        <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="space-y-2 text-center ltr:md:text-left rtl:md:text-right">
+            <span className="eyebrow text-gilt flex items-center justify-center ltr:md:justify-start rtl:md:justify-start gap-2">
+              <Sparkles size={16} /> {t.visitorCounterTitle}
+            </span>
+            <h2 className="font-display text-2xl md:text-3xl tracking-wide">
+              Joining over <span className="text-gilt font-bold font-mono">472,000+</span> Connoisseurs
+            </h2>
+            <p className="text-sm text-cream/70 max-w-lg leading-relaxed">
+              Track our live real-time visitor entry odometer below, connecting leather aficionados across Dubai, Spain, and around the world.
+            </p>
+          </div>
+
+          <div>
+            <VisitorCounter variant="badge" />
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4 — OUR STORY */}
       <section className="bg-background py-24">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-12 md:grid-cols-2 md:items-start">
-            <div className="overflow-hidden shadow-elev md:sticky md:top-24">
+            <div className="overflow-hidden shadow-elev md:sticky md:top-24 rounded-lg">
               <img
                 src={storyImg}
-                alt="From a small gift shop in Dubai Marina to Cuerocaza — our journey"
+                alt="From a small gift shop in Dubai Marina to Cuerocaza — our journey at www.cuerocaza.com"
                 className="h-full w-full object-cover"
                 loading="lazy"
               />
@@ -85,33 +109,22 @@ function Home() {
 
               <h3 className="mt-8 font-display text-2xl md:text-3xl text-cognac">Crafted &amp; Perfected · Learning the Trade</h3>
               <p className="mt-3 text-base leading-relaxed text-foreground/85">
-                Over time, leather became our obsession. We travelled, studied, and worked with master tanners
-                and craftsmen to learn how full-grain Italian hides are cut, bevelled, edge-painted and
-                stitched. We sourced only premium Italian leather and refused to compromise on any seam, edge or thread.
-              </p>
-
-              <h3 className="mt-8 font-display text-2xl md:text-3xl text-cognac">
-                Launched Online · <a href="https://cuerocaza.com" target="_blank" rel="noopener noreferrer" className="hover:underline text-cognac">Cuerocaza.com</a>
-              </h3>
-              <p className="mt-3 text-base leading-relaxed text-foreground/85">
-                As demand grew beyond the gift shop, we expanded into a full digital storefront so customers
-                across the UAE could explore our collection, customise their pieces, and place corporate
-                orders without leaving their desk.
+                Over time, leather became our obsession. We travelled, studied Spanish and Italian marroquinería traditions, and worked with master tanners
+                to learn how full-grain Italian hides are cut, bevelled, edge-painted and stitched.
               </p>
 
               <h3 className="mt-8 font-display text-2xl md:text-3xl text-cognac">Today · The Premier Destination</h3>
               <p className="mt-3 text-base leading-relaxed text-foreground/85">
                 CUEROCAZA is now Dubai's premier destination for handcrafted Italian leather accessories.
                 We make wallets, passport covers, card holders, keychains, luggage tags, desk pieces, and
-                personalised gifts — and partner with businesses, hotels, and real estate companies across the UAE
-                on bespoke corporate gifting at any scale.
+                personalised gifts — and partner with businesses, hotels, and real estate companies across the UAE.
               </p>
 
-              <p className="mt-10 font-display text-xl italic text-cognac">"Italian craftsmanship, Dubai soul."</p>
+              <p className="mt-10 font-display text-xl italic text-cognac">"Italian craftsmanship, Dubai soul, Spanish spirit."</p>
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link to="/products" className="inline-flex items-center rounded-none bg-cognac px-7 py-3 text-sm font-medium uppercase tracking-wider text-primary-foreground transition hover:opacity-90">
-                  SHOP ONLINE
+                  {t.exploreCollection}
                 </Link>
               </div>
             </div>
@@ -122,12 +135,12 @@ function Home() {
       {/* SECTION 6 — CORPORATE ORDERS */}
       <section className="mx-auto max-w-6xl px-6 py-24">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
-          <div className="aspect-[4/5] overflow-hidden order-2 md:order-1">
-            <img src={showroomImg} alt="Corporate leather gift sets in the Cuerocaza showroom" className="h-full w-full object-cover" loading="lazy" />
+          <div className="aspect-[4/5] overflow-hidden order-2 md:order-1 rounded-lg">
+            <img src={showroomImg} alt="Corporate leather gift sets in the Cuerocaza showroom www.cuerocaza.com" className="h-full w-full object-cover" loading="lazy" />
           </div>
           <div className="order-1 md:order-2">
             <span className="eyebrow">Corporate Gifting</span>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl">Corporate Gifting & Bulk Orders</h2>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl">Corporate Gifting &amp; Bulk Orders</h2>
             <p className="mt-6 text-base leading-relaxed text-foreground/85">
               Looking for premium corporate gifts in Dubai? CUEROCAZA works with businesses, hotels, real estate
               companies, and organisations across the UAE to create personalised leather gifts for employees, clients,
@@ -151,7 +164,7 @@ function Home() {
         </div>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {reviews.map((r) => (
-            <figure key={r.name} className="flex h-full flex-col border border-border bg-card p-6">
+            <figure key={r.name} className="flex h-full flex-col border border-border bg-card p-6 rounded-lg shadow-sm">
               <div className="text-gilt">★★★★★</div>
               <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-foreground/85">"{r.body}"</blockquote>
               <figcaption className="mt-5 text-xs uppercase tracking-[0.2em] text-muted-foreground">

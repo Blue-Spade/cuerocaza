@@ -3,15 +3,20 @@ import { useServerFn } from "@tanstack/react-start";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Mail } from "lucide-react";
+import { Mail, Globe, ExternalLink } from "lucide-react";
 import { submitInquiry } from "@/lib/inquiries.functions";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Cuerocaza India" },
-      { name: "description", content: "Visit the showroom, commission a custom piece, or simply say hello." },
+      { title: "Contact Us — CUEROCAZA Dubai & Spain | www.cuerocaza.com" },
+      { name: "description", content: "Get in touch with CUEROCAZA for bespoke Italian leather orders, corporate gifting, or inquiries across Dubai, UAE, and Spain. Official website: www.cuerocaza.com." },
+      { property: "og:title", content: "Contact Us — CUEROCAZA Dubai & Spain | www.cuerocaza.com" },
+      { property: "og:description", content: "Visit our atelier, request corporate quotes, or contact our team." },
+      { property: "og:url", content: "https://www.cuerocaza.com/contact" },
     ],
+    links: [{ rel: "canonical", href: "https://www.cuerocaza.com/contact" }],
   }),
   component: ContactPage,
 });
@@ -25,6 +30,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 function ContactPage() {
+  const { t } = useLanguage();
   const submit = useServerFn(submitInquiry);
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const whatsAppMessage = encodeURIComponent("Hello Cuerocaza");
@@ -33,15 +39,14 @@ function ContactPage() {
   const addressLine = "39 6th St - Al Murar - Dubai - United Arab Emirates";
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressLine)}`;
   const contactEmail = "cuerocaza001@gmail.com";
-  const emailSubject = encodeURIComponent("Inquiry from Cuerocaza website");
+  const emailSubject = encodeURIComponent("Inquiry from www.cuerocaza.com website");
   const emailBody = encodeURIComponent("Hello Cuerocaza,\n\nI'd like to know more about your leather goods.\n\nRegards,");
-  // Standard mailto works universally across devices and default mail apps.
   const mailtoHref = `mailto:${contactEmail}?subject=${emailSubject}&body=${emailBody}`;
+
   const mutation = useMutation({
     mutationFn: (data: typeof form) => submit({ data }),
     onSuccess: (_res, vars) => {
       toast.success("Thank you — we've received your inquiry! Opening WhatsApp to connect with us directly…");
-      // Forward the customer's message to the business WhatsApp number
       const waText = encodeURIComponent(
         `New inquiry from ${vars.name}${vars.phone ? ` (${vars.phone})` : ""}:\n\n${vars.message}`
       );
@@ -55,10 +60,12 @@ function ContactPage() {
   return (
     <div className="mx-auto grid max-w-6xl gap-16 px-6 py-24 md:grid-cols-2">
       <div>
-        <span className="eyebrow">Get in touch</span>
-        <dl className="mt-10 space-y-4 text-sm">
+        <span className="eyebrow">{t.navContact} · {t.brandName}</span>
+        <h1 className="mt-3 font-display text-4xl md:text-5xl">Get in touch</h1>
+        
+        <dl className="mt-8 space-y-4 text-sm">
           <div>
-            <span className="eyebrow">Address</span>
+            <dt className="eyebrow">Address</dt>
             <dd className="mt-1">
               <a
                 href={mapsHref}
@@ -66,10 +73,9 @@ function ContactPage() {
                 rel="noopener noreferrer"
                 aria-label="Open showroom location in Google Maps"
                 title="Open showroom location in Google Maps"
-                onClick={(e) => { e.preventDefault(); const opened = window.open(mapsHref, "_blank", "noopener,noreferrer"); if (!opened) window.location.assign(mapsHref); }}
                 className="text-cognac hover:underline"
               >
-                {addressLine}
+                {t.footerAddress}
               </a>
             </dd>
           </div>
@@ -97,8 +103,7 @@ function ContactPage() {
                 rel="noopener noreferrer"
                 aria-label="Chat on WhatsApp: +971 56 115 3442"
                 title="Chat on WhatsApp: +971 56 115 3442"
-                onClick={(e) => { e.preventDefault(); const opened = window.open(whatsAppHref, "_blank", "noopener,noreferrer"); if (!opened) window.location.assign(whatsAppHref); }}
-                className="inline-flex items-center gap-2 text-cognac hover:underline"
+                className="inline-flex items-center gap-2 text-cognac hover:underline font-medium"
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 +971 56 115 3442
@@ -107,12 +112,12 @@ function ContactPage() {
           </div>
         </dl>
 
-        <div className="mt-10 overflow-hidden rounded border border-border shadow-elev">
+        <div className="mt-10 overflow-hidden rounded-lg border border-border shadow-elev">
           <iframe
             title="Showroom location"
             src={`https://maps.google.com/maps?q=${encodeURIComponent(addressLine)}&t=&z=16&ie=UTF8&iwloc=&output=embed`}
             width="100%"
-            height="280"
+            height="260"
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"
@@ -123,7 +128,7 @@ function ContactPage() {
 
       <form
         onSubmit={(e) => { e.preventDefault(); mutation.mutate(form); }}
-        className="space-y-5 border border-border bg-card p-8 shadow-elev"
+        className="space-y-5 border border-border bg-card p-8 shadow-elev rounded-lg"
       >
         <Field label="Your name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
         <Field label="WhatsApp number" type="tel" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} required />
@@ -133,12 +138,12 @@ function ContactPage() {
             required minLength={5} maxLength={2000} rows={6}
             value={form.message}
             onChange={(e) => setForm({ ...form, message: e.target.value })}
-            className="mt-2 w-full border border-input bg-background px-3 py-2 text-sm outline-none focus:border-cognac"
+            className="mt-2 w-full border border-input bg-background px-3 py-2 text-sm outline-none focus:border-cognac rounded"
           />
         </div>
         <button
           disabled={mutation.isPending}
-          className="w-full bg-primary px-6 py-3 text-sm font-medium uppercase tracking-wider text-primary-foreground transition hover:bg-espresso disabled:opacity-50"
+          className="w-full bg-primary px-6 py-3 text-sm font-medium uppercase tracking-wider text-primary-foreground transition hover:bg-espresso disabled:opacity-50 rounded"
         >
           {mutation.isPending ? "Sending…" : "Send message"}
         </button>
@@ -154,7 +159,7 @@ function Field({ label, value, onChange, type = "text", required }: { label: str
       <input
         required={required} type={type} value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-2 w-full border border-input bg-background px-3 py-2 text-sm outline-none focus:border-cognac"
+        className="mt-2 w-full border border-input bg-background px-3 py-2 text-sm outline-none focus:border-cognac rounded"
       />
     </div>
   );

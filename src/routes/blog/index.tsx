@@ -25,7 +25,6 @@ export const Route = createFileRoute("/blog/")({
 
 function BlogIndexPage() {
   const featuredPost = BLOG_POSTS.find((p) => p.featured) || BLOG_POSTS[0];
-  const regularPosts = BLOG_POSTS.filter((p) => p.id !== featuredPost.id);
 
   return (
     <div className="bg-background min-h-screen pb-24">
@@ -41,17 +40,6 @@ function BlogIndexPage() {
           <p className="mx-auto mt-4 max-w-2xl text-base md:text-lg leading-relaxed text-cream/80">
             From Spain's champion spirit to Tuscany's leather ateliers. Explore our journal on handcrafted quality, Spanish soul, and timeless style.
           </p>
-          <div className="mt-6 flex justify-center text-xs tracking-wider uppercase text-gilt">
-            Visit our storefront at{" "}
-            <a
-              href="https://cuerocaza.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-1 underline font-semibold hover:text-cream transition-colors"
-            >
-              cuerocaza.com
-            </a>
-          </div>
         </div>
       </section>
 
@@ -133,14 +121,6 @@ function BlogIndexPage() {
               >
                 View Collection
               </Link>
-              <a
-                href="https://cuerocaza.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border border-cream/30 hover:border-cream text-cream text-xs uppercase tracking-wider font-medium px-6 py-3 transition"
-              >
-                Visituerocaza.com
-              </a>
             </div>
           </div>
         </section>
