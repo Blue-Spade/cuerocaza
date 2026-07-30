@@ -76,7 +76,7 @@ const translations: Record<Language, Translations> = {
     
     navHome: "Home",
     navCollection: "Collection",
-    navJournal: "Journal",
+    navJournal: "Blog",
     navContact: "Contact",
     navCart: "Cart",
     navAccount: "Account / Sign In",
