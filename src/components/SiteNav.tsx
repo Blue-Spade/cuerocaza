@@ -12,7 +12,7 @@ export function SiteNav() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const { count } = useCart();
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t, dir } = useLanguage();
 
   const navLinks = [
     { to: "/", label: t.navHome },
@@ -81,19 +81,34 @@ export function SiteNav() {
 
             {langOpen && (
               <>
-                <div className="fixed inset-0 z-30" onClick={() => setLangOpen(false)} />
-                <div className="absolute right-0 ltr:right-0 rtl:left-0 z-40 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-popover shadow-elev p-1">
+                <div
+                  className="fixed inset-0 z-30"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLangOpen(false);
+                  }}
+                />
+                <div className={`absolute ${dir === "rtl" ? "left-0" : "right-0"} z-50 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-popover shadow-elev p-1`}>
                   <div className="px-3 py-2 text-[11px] font-bold text-muted-foreground uppercase tracking-wider border-b border-border/40">
                     {t.selectLanguage}
                   </div>
                   {languages.map((item) => (
                     <button
                       key={item.code}
-                      onClick={() => {
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         setLanguage(item.code);
                         setLangOpen(false);
                       }}
-                      className={`flex w-full items-center justify-between px-3 py-2.5 text-xs rounded-lg transition-colors ${
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setLanguage(item.code);
+                        setLangOpen(false);
+                      }}
+                      className={`flex w-full items-center justify-between px-3 py-2.5 text-xs rounded-lg transition-colors cursor-pointer ${
                         language === item.code ? "bg-cognac/15 text-cognac font-bold" : "hover:bg-accent"
                       }`}
                     >
