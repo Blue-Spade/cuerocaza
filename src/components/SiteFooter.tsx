@@ -111,7 +111,7 @@ export function SiteFooter() {
 
           <div className="mt-8">
             <h4 className="eyebrow text-gilt flex items-center gap-1.5">
-              <Globe size={14} /> Language
+              <Globe size={14} /> {t.languageLabel}
             </h4>
             <div className="mt-3 flex flex-col gap-2 text-xs text-cream/70">
               <button

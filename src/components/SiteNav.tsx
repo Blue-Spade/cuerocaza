@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Menu, X, ShoppingBag, Settings, Package, Sparkles, LogIn, Globe, Check } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { useLanguage, type Language } from "@/lib/i18n";
+import { VisitorCounter } from "./VisitorCounter";
 
 const logoUrl = "/logo-genuine-leather.jpeg";
 
@@ -56,6 +57,11 @@ export function SiteNav() {
           ))}
         </nav>
 
+        {/* Live Visitor Counter Roller Badge (Desktop & Tablet) */}
+        <div className="hidden lg:flex items-center">
+          <VisitorCounter variant="header" />
+        </div>
+
         {/* Actions: Language Switcher, Cart, Settings */}
         <div className="flex items-center gap-2">
           
@@ -78,7 +84,7 @@ export function SiteNav() {
                 <div className="fixed inset-0 z-30" onClick={() => setLangOpen(false)} />
                 <div className="absolute right-0 ltr:right-0 rtl:left-0 z-40 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-popover shadow-elev p-1">
                   <div className="px-3 py-2 text-[11px] font-bold text-muted-foreground uppercase tracking-wider border-b border-border/40">
-                    Select Language
+                    {t.selectLanguage}
                   </div>
                   {languages.map((item) => (
                     <button
@@ -164,17 +170,49 @@ export function SiteNav() {
       {/* Mobile Dropdown Nav */}
       {open && (
         <nav className="border-t border-border/60 bg-background md:hidden">
-          <div className="flex flex-col px-6 py-4 space-y-2">
+          <div className="flex flex-col px-6 py-4 space-y-3">
             {navLinks.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
                 onClick={() => setOpen(false)}
-                className="py-2 text-sm font-medium tracking-wide text-foreground/80 hover:text-cognac"
+                className="py-1 text-sm font-medium tracking-wide text-foreground/80 hover:text-cognac"
               >
                 {l.label}
               </Link>
             ))}
+            
+            {/* 3 Languages Selection in Mobile Menu */}
+            <div className="border-t border-border/40 pt-3">
+              <div className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <Globe size={14} className="text-cognac" /> {t.selectLanguage}
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {languages.map((item) => (
+                  <button
+                    key={item.code}
+                    onClick={() => {
+                      setLanguage(item.code);
+                      setOpen(false);
+                    }}
+                    className={`flex items-center justify-center gap-1.5 py-2 px-1 rounded-lg text-xs font-medium border ${
+                      language === item.code
+                        ? "bg-cognac/15 border-cognac text-cognac font-bold"
+                        : "border-border/60 hover:bg-accent"
+                    }`}
+                  >
+                    <span>{item.flag}</span>
+                    <span>{item.code.toUpperCase()}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Mobile Visitor Counter */}
+            <div className="pt-2">
+              <VisitorCounter variant="header" className="w-full justify-center" />
+            </div>
+
             <div className="border-t border-border/40 pt-2 flex flex-col space-y-2 text-sm text-foreground/80">
               <Link to="/my-orders" onClick={() => setOpen(false)} className="py-1 flex items-center gap-2">
                 <Package size={16} className="text-cognac" /> {t.navOrders}

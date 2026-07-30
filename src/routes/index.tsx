@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Building2, Truck, ShieldCheck, Banknote, Globe, Sparkles, ExternalLink } from "lucide-react";
 import showroomImg from "@/assets/scenes/showroom-1.jpg";
 import { useLanguage } from "@/lib/i18n";
-import { VisitorCounter } from "@/components/VisitorCounter";
+import { VisitorCounter, useVisitorCount } from "@/components/VisitorCounter";
 
 const heroImg = "/hero-banner-main.jpeg";
 const storyImg = "/our-story-banner.jpeg";
@@ -30,6 +30,9 @@ const reviews = [
 
 function Home() {
   const { t } = useLanguage();
+  const { count } = useVisitorCount();
+
+  const formattedCount = count.toLocaleString("en-US");
 
   const trustBadges = [
     { icon: Truck, title: t.craftedInDubai, subtitle: "Free UAE Delivery" },
@@ -69,10 +72,10 @@ function Home() {
               <Sparkles size={16} /> {t.visitorCounterTitle}
             </span>
             <h2 className="font-display text-2xl md:text-3xl tracking-wide">
-              Joining over <span className="text-gilt font-bold font-mono">472,000+</span> Connoisseurs
+              {t.joiningOver} <span className="text-gilt font-bold font-mono">{formattedCount}+</span> {t.connoisseurs}
             </h2>
             <p className="text-sm text-cream/70 max-w-lg leading-relaxed">
-              Track our live real-time visitor entry odometer below, connecting leather aficionados across Dubai, Spain, and around the world.
+              {t.counterDescription}
             </p>
           </div>
 
@@ -95,8 +98,8 @@ function Home() {
               />
             </div>
             <div>
-              <span className="eyebrow">Our Story</span>
-              <h2 className="mt-3 font-display text-4xl md:text-5xl">From Dubai Marina to CUEROCAZA</h2>
+              <span className="eyebrow">{t.ourStory}</span>
+              <h2 className="mt-3 font-display text-4xl md:text-5xl">{t.ourStoryTitle}</h2>
               <p className="mt-6 font-display text-2xl text-cognac italic">Italian craftsmanship, Dubai soul.</p>
 
               <h3 className="mt-10 font-display text-2xl md:text-3xl text-cognac">2013 – 2015 · The Gift Shop</h3>
@@ -139,8 +142,8 @@ function Home() {
             <img src={showroomImg} alt="Corporate leather gift sets in the Cuerocaza showroom www.cuerocaza.com" className="h-full w-full object-cover" loading="lazy" />
           </div>
           <div className="order-1 md:order-2">
-            <span className="eyebrow">Corporate Gifting</span>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl">Corporate Gifting &amp; Bulk Orders</h2>
+            <span className="eyebrow">{t.corporateGifting}</span>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl">{t.corporateGiftingTitle}</h2>
             <p className="mt-6 text-base leading-relaxed text-foreground/85">
               Looking for premium corporate gifts in Dubai? CUEROCAZA works with businesses, hotels, real estate
               companies, and organisations across the UAE to create personalised leather gifts for employees, clients,
@@ -150,7 +153,7 @@ function Home() {
               From branded wallets and passport covers to executive gift sets and customised accessories, we help businesses leave a lasting impression.
             </p>
             <Link to="/contact" className="mt-8 inline-flex items-center gap-2 rounded-none bg-cognac px-7 py-3 text-sm font-medium uppercase tracking-wider text-primary-foreground transition hover:opacity-90">
-              <Building2 className="h-4 w-4" /> Request a Corporate Quote
+              <Building2 className="h-4 w-4" /> {t.requestCorporateQuote}
             </Link>
           </div>
         </div>
@@ -159,8 +162,8 @@ function Home() {
       {/* SECTION 8 — REVIEWS */}
       <section className="mx-auto max-w-6xl px-6 py-24">
         <div className="max-w-2xl">
-          <span className="eyebrow">Customer Reviews</span>
-          <h2 className="mt-3 font-display text-4xl md:text-5xl">Words from our customers</h2>
+          <span className="eyebrow">{t.customerReviewsTitle}</span>
+          <h2 className="mt-3 font-display text-4xl md:text-5xl">{t.customerReviewsSubtitle}</h2>
         </div>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {reviews.map((r) => (

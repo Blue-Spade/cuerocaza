@@ -5,6 +5,75 @@ import { Users, TrendingUp } from "lucide-react";
 const INITIAL_VISITOR_COUNT = 472005;
 const STORAGE_KEY = "cuerocaza_visitor_count_v2";
 
+let globalCount = INITIAL_VISITOR_COUNT;
+let isInitialized = false;
+let globalPulse = false;
+const listeners = new Set<() => void>();
+
+function notifyListeners() {
+  listeners.forEach((fn) => fn());
+}
+
+function initGlobalCounter() {
+  if (isInitialized || typeof window === "undefined") return;
+  isInitialized = true;
+
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = parseInt(stored, 10);
+      if (!isNaN(parsed) && parsed >= INITIAL_VISITOR_COUNT) {
+        globalCount = parsed;
+      }
+    }
+
+    // Increment for current session visit
+    globalCount += 1;
+    localStorage.setItem(STORAGE_KEY, globalCount.toString());
+    notifyListeners();
+  } catch (err) {
+    console.warn("Storage access error:", err);
+  }
+
+  // Periodic traffic pulse simulation (12-27 seconds)
+  setInterval(() => {
+    globalCount += 1;
+    try {
+      localStorage.setItem(STORAGE_KEY, globalCount.toString());
+    } catch (_) {}
+    globalPulse = true;
+    notifyListeners();
+
+    setTimeout(() => {
+      globalPulse = false;
+      notifyListeners();
+    }, 1200);
+  }, Math.floor(Math.random() * 15000) + 12000);
+}
+
+export function useVisitorCount() {
+  const [count, setCount] = useState<number>(INITIAL_VISITOR_COUNT);
+  const [isPulse, setIsPulse] = useState<boolean>(false);
+
+  useEffect(() => {
+    initGlobalCounter();
+    setCount(globalCount);
+    setIsPulse(globalPulse);
+
+    const onChange = () => {
+      setCount(globalCount);
+      setIsPulse(globalPulse);
+    };
+
+    listeners.add(onChange);
+    return () => {
+      listeners.delete(onChange);
+    };
+  }, []);
+
+  return { count, isPulse };
+}
+
 interface VisitorCounterProps {
   variant?: "header" | "badge" | "banner";
   className?: string;
@@ -40,39 +109,7 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
   className = "",
 }) => {
   const { t } = useLanguage();
-  const [count, setCount] = useState<number>(INITIAL_VISITOR_COUNT);
-  const [isPulse, setIsPulse] = useState(false);
-
-  useEffect(() => {
-    // Retrieve stored count or initialize
-    const stored = localStorage.getItem(STORAGE_KEY);
-    let current = INITIAL_VISITOR_COUNT;
-
-    if (stored) {
-      const parsed = parseInt(stored, 10);
-      if (!isNaN(parsed) && parsed >= INITIAL_VISITOR_COUNT) {
-        current = parsed;
-      }
-    }
-
-    // Increment for current session entry
-    const newCount = current + 1;
-    setCount(newCount);
-    localStorage.setItem(STORAGE_KEY, newCount.toString());
-
-    // Live continuous traffic pulse simulation (ticks up periodically)
-    const interval = setInterval(() => {
-      setCount((prev) => {
-        const updated = prev + 1;
-        localStorage.setItem(STORAGE_KEY, updated.toString());
-        setIsPulse(true);
-        setTimeout(() => setIsPulse(false), 1200);
-        return updated;
-      });
-    }, Math.floor(Math.random() * 15000) + 12000); // 12-27 seconds
-
-    return () => clearInterval(interval);
-  }, []);
+  const { count, isPulse } = useVisitorCount();
 
   // Format count into comma-separated string: "472,006"
   const formattedString = count.toLocaleString("en-US");
@@ -82,7 +119,7 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
     return (
       <div
         className={`inline-flex items-center gap-2 rounded-full border border-cognac/30 bg-espresso/80 px-3 py-1 text-xs text-cream shadow-sm backdrop-blur transition-all ${className}`}
-        title="Live website visitor counter"
+        title={t.visitorCounterTitle}
       >
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -139,7 +176,7 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
         </span>
         <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30 font-mono">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
-          LIVE
+          {t.liveStatus}
         </span>
       </div>
 
@@ -149,12 +186,12 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
             <RollerDigit key={`${idx}-${d}`} digit={d} />
           ))}
         </div>
-        <span className="text-xs text-cream/60">users joined</span>
+        <span className="text-xs text-cream/60">{t.usersJoined}</span>
       </div>
 
       <div className="mt-1 text-[11px] text-cream/50 flex items-center justify-between border-t border-cream/10 pt-2">
-        <span>Verified Entry Odometer</span>
-        <span className="text-cognac font-mono text-[10px]">Realtime Traffic</span>
+        <span>{t.verifiedEntryOdometer}</span>
+        <span className="text-cognac font-mono text-[10px]">{t.realtimeTraffic}</span>
       </div>
     </div>
   );

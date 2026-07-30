@@ -21,11 +21,29 @@ export interface Translations {
   navOrders: string;
   navAiAssistant: string;
 
-  // Counter
+  // Counter & Live Traffic
   visitorCounterTitle: string;
   liveVisitors: string;
   totalVisitorsServed: string;
   realtimePulse: string;
+  usersJoined: string;
+  liveStatus: string;
+  verifiedEntryOdometer: string;
+  realtimeTraffic: string;
+  joiningOver: string;
+  connoisseurs: string;
+  counterDescription: string;
+  selectLanguage: string;
+  languageLabel: string;
+
+  // Sections & CTAs
+  ourStory: string;
+  ourStoryTitle: string;
+  corporateGifting: string;
+  corporateGiftingTitle: string;
+  requestCorporateQuote: string;
+  customerReviewsTitle: string;
+  customerReviewsSubtitle: string;
 
   // Footer & Details
   footerAboutText: string;
@@ -69,6 +87,23 @@ const translations: Record<Language, Translations> = {
     liveVisitors: "Live Visitors",
     totalVisitorsServed: "Website Visitors",
     realtimePulse: "Live Entry Pulse",
+    usersJoined: "users joined",
+    liveStatus: "LIVE",
+    verifiedEntryOdometer: "Verified Entry Odometer",
+    realtimeTraffic: "Realtime Traffic",
+    joiningOver: "Joining over",
+    connoisseurs: "Connoisseurs",
+    counterDescription: "Track our live real-time visitor entry odometer below, connecting leather aficionados across Dubai, Spain, and around the world.",
+    selectLanguage: "Select Language",
+    languageLabel: "Language",
+
+    ourStory: "Our Story",
+    ourStoryTitle: "From Dubai Marina to CUEROCAZA",
+    corporateGifting: "Corporate Gifting",
+    corporateGiftingTitle: "Corporate Gifting & Bulk Orders",
+    requestCorporateQuote: "Request a Corporate Quote",
+    customerReviewsTitle: "Customer Reviews",
+    customerReviewsSubtitle: "Words from our customers",
 
     footerAboutText: "CUEROCAZA is a Dubai-based luxury leather house specializing in genuine Italian leather wallets, passport covers, cardholders, personalized gifts, and corporate leather solutions across the UAE.",
     footerAddress: "39 6th St — Al Murar — Dubai — United Arab Emirates",
@@ -108,6 +143,23 @@ const translations: Record<Language, Translations> = {
     liveVisitors: "Visitantes en Vivo",
     totalVisitorsServed: "Visitantes del Sitio Web",
     realtimePulse: "Pulso en Vivo",
+    usersJoined: "usuarios unidos",
+    liveStatus: "EN VIVO",
+    verifiedEntryOdometer: "Odómetro de Entradas Verificado",
+    realtimeTraffic: "Tráfico en Tiempo Real",
+    joiningOver: "Uniéndose a más de",
+    connoisseurs: "Aficionados",
+    counterDescription: "Siga nuestro odómetro de entradas en vivo a continuación, conectando aficionados al cuero en Dubái, España y todo el mundo.",
+    selectLanguage: "Seleccionar Idioma",
+    languageLabel: "Idioma",
+
+    ourStory: "Nuestra Historia",
+    ourStoryTitle: "Desde Dubai Marina hasta CUEROCAZA",
+    corporateGifting: "Regalos Corporativos",
+    corporateGiftingTitle: "Regalos Corporativos y Pedidos al Por Mayor",
+    requestCorporateQuote: "Solicitar Presupuesto Corporativo",
+    customerReviewsTitle: "Reseñas de Clientes",
+    customerReviewsSubtitle: "Opiniones de nuestros clientes",
 
     footerAboutText: "CUEROCAZA es una marca de marroquinería de lujo con sede en Dubái, especializada en carteras de piel italiana legítima, fundas de pasaporte, tarjeteros, regalos personalizados y artículos corporativos en los EAU.",
     footerAddress: "Calle 39 6a — Al Murar — Dubái — Emiratos Árabes Unidos",
@@ -147,6 +199,23 @@ const translations: Record<Language, Translations> = {
     liveVisitors: "زوار متواجدون الآن",
     totalVisitorsServed: "عدد زوار الموقع",
     realtimePulse: "نبض التفاعل الحقيقي",
+    usersJoined: "زائر انضموا إلينا",
+    liveStatus: "مباشر",
+    verifiedEntryOdometer: "عداد الزيارات المعتمد",
+    realtimeTraffic: "حركة المرور المباشرة",
+    joiningOver: "انضم إلى أكثر من",
+    connoisseurs: "عاشق للجلد الفاخر",
+    counterDescription: "تابع عداد زيارات الموقع الحقيقي المباشر أدناه، والذي يربط عشاق الجلد الفاخر بين دبي وإسبانيا وحول العالم.",
+    selectLanguage: "اختر اللغة",
+    languageLabel: "اللغة",
+
+    ourStory: "قصتنا",
+    ourStoryTitle: "من دبي مارينا إلى كويروكازا",
+    corporateGifting: "الهدايا المؤسسية",
+    corporateGiftingTitle: "الهدايا المؤسسية والطلبات بالجملة",
+    requestCorporateQuote: "طلب عرض أسعار للشركات",
+    customerReviewsTitle: "آراء العملاء",
+    customerReviewsSubtitle: "كلمات من عشاق منتجاتنا",
 
     footerAboutText: "كويروكازا هي دار جلدية فاخرة مقرها دبي، متخصصة في المحافظ الجلدية الإيطالية الطبيعية، أغطية جوازات السفر، حوامل البطاقات، الهدايا الشخصية وحلول الهدايا للشركات في دولة الإمارات العربية المتحدة.",
     footerAddress: "شارع 39 6 — المرار — دبي — الإمارات العربية المتحدة",
