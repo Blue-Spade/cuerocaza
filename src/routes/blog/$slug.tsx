@@ -279,6 +279,57 @@ function BlogPostDetail() {
           </p>
         </blockquote>
 
+        {/* LEATHER TIERS ANATOMY BREAKDOWN */}
+        {post.content.anatomyBreakdown && (
+          <section className="my-12 p-6 md:p-8 border border-cognac/30 bg-card shadow-sm space-y-6">
+            <div className="border-b border-border/70 pb-4">
+              <span className="eyebrow block text-cognac font-bold tracking-widest">Workshop Reference Guide</span>
+              <h2 className="font-display text-2xl sm:text-3xl text-foreground mt-1">
+                {post.content.anatomyBreakdown.title}
+              </h2>
+              <p className="mt-2 text-sm text-foreground/80 leading-relaxed font-light">
+                {post.content.anatomyBreakdown.description}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              {post.content.anatomyBreakdown.layers.map((layer, idx) => (
+                <div
+                  key={idx}
+                  className={`p-5 border transition-all ${
+                    idx === 0
+                      ? "border-cognac bg-cognac/5 shadow-sm"
+                      : "border-border/80 bg-background/50 hover:border-border"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="font-display font-bold text-base text-foreground">
+                      {layer.name}
+                    </span>
+                    <span
+                      className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 ${
+                        idx === 0
+                          ? "bg-cognac text-white"
+                          : idx === 1
+                          ? "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200"
+                          : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {layer.badge}
+                    </span>
+                  </div>
+                  <p className="text-xs text-foreground/80 leading-relaxed mt-2">
+                    {layer.description}
+                  </p>
+                  <div className="mt-3 pt-2 border-t border-border/50 text-[11px] font-medium text-cognac italic">
+                    {layer.verdict}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* PILLARS / LESSONS */}
         {post.content.pillars && post.content.pillars.length > 0 && (
           <div className="my-10 space-y-8">
@@ -314,6 +365,33 @@ function BlogPostDetail() {
               ))}
             </div>
           </div>
+        )}
+
+        {/* WORKSHOP FAQS / MYTHBUSTERS */}
+        {post.content.faqs && post.content.faqs.length > 0 && (
+          <section className="my-12 p-6 md:p-8 border border-border bg-muted/20 space-y-6">
+            <div className="border-b border-border/60 pb-3">
+              <h2 className="font-display text-2xl sm:text-3xl text-foreground">
+                Craftsman FAQs &amp; Common Myths
+              </h2>
+              <p className="text-xs text-muted-foreground mt-1">
+                Straightforward answers to the questions we hear daily in our atelier.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {post.content.faqs.map((faq, i) => (
+                <div key={i} className="border border-border/70 bg-card p-5 space-y-2">
+                  <h3 className="font-display text-base font-semibold text-foreground flex items-center gap-2">
+                    <span className="text-cognac font-bold font-mono text-sm">Q:</span> {faq.question}
+                  </h3>
+                  <p className="text-sm text-foreground/85 leading-relaxed pl-4 border-l-2 border-cognac/40">
+                    {faq.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
         )}
 
         {/* CLOSING PARAGRAPHS */}

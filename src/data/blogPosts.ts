@@ -20,12 +20,26 @@ export interface BlogPost {
       spanishOrigin: string;
       philosophy: string;
     };
+    anatomyBreakdown?: {
+      title: string;
+      description: string;
+      layers: {
+        name: string;
+        badge: string;
+        description: string;
+        verdict: string;
+      }[];
+    };
     pillarsTitle?: string;
     pillars: {
       number: string;
       title: string;
       highlight: string;
       body: string;
+    }[];
+    faqs?: {
+      question: string;
+      answer: string;
     }[];
     closing: string[];
     signature: {
@@ -121,7 +135,37 @@ export const BLOG_POSTS: BlogPost[] = [
         spanishOrigin: "If a hide doesn't breathe, flex, and wear its scars with pride, it isn't leather — it's plastic pretending to have a pulse.",
         philosophy: "At CUEROCAZA, we never sand down nature’s grain to make high-speed factory cutting machines happy. We hand-select dense European hides that preserve every original pore, scar, and fiber."
       },
-      pillarsTitle: "Behind the Tannery Curtain: 5 Things You Deserve to Know",
+      anatomyBreakdown: {
+        title: "The 4 Grades of Leather Ranked by Longevity",
+        description: "Most buyers assume 'leather is just leather.' In reality, commercial tanneries slice cowhides into distinct strata. Here is the unvarnished hierarchy:",
+        layers: [
+          {
+            name: "1. Full-Grain Leather",
+            badge: "Grade A • The Gold Standard",
+            description: "The uncut, uppermost layer of the hide directly below the hair. Fibers remain densely woven by nature. Untouched by sandpaper, it retains natural pores, breathes freely, and drinks in natural oils.",
+            verdict: "Lifespan: 20–50+ Years. Never peels. Develops a radiant, glossy caramel patina over time."
+          },
+          {
+            name: "2. Top-Grain Leather",
+            badge: "Grade B • The Compromise",
+            description: "The top layer has been sanded down with abrasive wheels to erase natural scars, insect bites, or wrinkles. Coated in heavy polymer paint and mechanically pressed with an artificial grain.",
+            verdict: "Lifespan: 4–7 Years. Clean looking on day one, but plastic coating prevents authentic patina."
+          },
+          {
+            name: "3. Genuine / Split Leather",
+            badge: "Grade C • The Retail Trick",
+            description: "The residual bottom layer sliced from underneath the grain. Fibers are fuzzy and structurally brittle. Glued together with polyurethane resins and embossed with fake pebble print.",
+            verdict: "Lifespan: 1–2 Years. Cracks, splits, and delaminates under normal pocket friction."
+          },
+          {
+            name: "4. Bonded / Faux Leather",
+            badge: "Grade D • Fast Fashion Mulch",
+            description: "Shredded leather dust and scrap offcuts mulched into a pulp with polymer adhesive and pressed onto a mesh fabric backing. Less than 20% actual animal fiber.",
+            verdict: "Lifespan: 6–12 Months. Cheap landfill fodder that peels at the slightest crease."
+          }
+        ]
+      },
+      pillarsTitle: "Behind the Tannery Curtain: 6 Workshop Truths",
       pillars: [
         {
           number: "01",
@@ -149,9 +193,33 @@ export const BLOG_POSTS: BlogPost[] = [
         },
         {
           number: "05",
-          title: "The 3-Second Pocket Test: How to Spot the Real Thing",
+          title: "The 5-Second Test: How to Spot the Real Thing Anywhere",
           highlight: "Don't trust the label. Trust your thumb, your nose, and your eyes.",
           body: "Next time you’re evaluating a leather item, do these three quick tests right there in the shop. First, the Thumb Press: press your thumb hard into the leather surface. Full-grain will create subtle, organic micro-wrinkles that fan outward — just like the skin on your knuckle — and smooth right out when released. Coated leather will feel stiff, spongy, or indent like a rubber tire. Second, the Scent: close your eyes and breathe deep. Real vegetable-tanned full-grain smells warm, earthy, sweet, and woodsy — like dried oak leaves and beeswax. If you smell acetone, acrylic paint, or burnt plastic, put it back. Third, inspect the raw edges: real leather is fibrous all the way through, never a three-layer sandwich glued together."
+        },
+        {
+          number: "06",
+          title: "Tuscan Vegetable Tanning: The Patient Art",
+          highlight: "Sixty days in chestnut bark drums versus twenty-four hours in toxic chromium salts.",
+          body: "More than 90% of commercial leather products are flash-tanned in industrial vats using harsh chromium salts. It’s fast and cheap, but it leaves hides smelling of petroleum chemicals and locks them in a static, artificial state. At CUEROCAZA, our hides undergo classic Italian vegetable tanning. Hides soak for 40 to 60 days in giant wooden drums infused with organic extracts of chestnut, mimosa, and quebracho bark. This gentle, time-honored alchemy leaves the leather breathable, hypoallergenic, and primed to absorb life's patina for half a century."
+        }
+      ],
+      faqs: [
+        {
+          question: "Can genuine full-grain leather get caught in the rain?",
+          answer: "Yes, absolutely! Cattle roam open fields in torrential rainstorms without dissolving. If your wallet or bag gets splashed, simply blot excess moisture with a clean cotton towel and let it dry naturally at room temperature. Never blast it with a hair dryer or set it against a radiator, as forced artificial heat leeches the essential oils out of the hide."
+        },
+        {
+          question: "Why does full-grain leather feel stiffer out of the box?",
+          answer: "Because the dense, fibrous protein structure hasn't been chemically broken down or mechanically crushed. Just like a pair of raw Japanese selvedge denim or Goodyear-welted boots, full-grain possesses an authentic break-in period. Within two to three weeks of daily carry, the warmth of your hands and pocket molds the hide into a buttery, supple companion."
+        },
+        {
+          question: "How often should I condition my leather accessories?",
+          answer: "Less is always more. A light rub with natural beeswax or lanolin leather cream once or twice a year is all that is ever required. Here is our craftsman rule of thumb: if your own hands feel parched during the dry winter months, your leather will appreciate a pea-sized dab of balm too."
+        },
+        {
+          question: "Are surface scratches permanent?",
+          answer: "Not on vegetable-tanned full-grain. For light surface fingernail marks, simply press the fleshy ball of your thumb onto the mark and rub firmly in circular motions for twenty seconds. The natural friction heat and oils from your skin re-disperse the internal waxes and blend the mark right into the surrounding grain."
         }
       ],
       closing: [

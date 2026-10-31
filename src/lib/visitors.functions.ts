@@ -1,41 +1,51 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import fs from "fs";
-import path from "path";
 
 export const BASE_VISITOR_COUNT = 472005;
-const STATS_FILE = path.resolve(process.cwd(), "visitor_stats.json");
 
-function getStoredCount(): number {
+let currentVisitorCount = BASE_VISITOR_COUNT;
+let isLoaded = false;
+
+async function loadPersistedCount(): Promise<number> {
+  if (isLoaded) return currentVisitorCount;
+  if (typeof window !== "undefined") return BASE_VISITOR_COUNT;
+  
   try {
-    if (fs.existsSync(STATS_FILE)) {
-      const raw = fs.readFileSync(STATS_FILE, "utf-8");
+    const fs = await import("fs");
+    const path = await import("path");
+    const file = path.resolve(process.cwd(), "visitor_stats.json");
+    if (fs.existsSync(file)) {
+      const raw = fs.readFileSync(file, "utf-8");
       const parsed = JSON.parse(raw);
       if (typeof parsed?.count === "number" && parsed.count >= BASE_VISITOR_COUNT) {
-        return parsed.count;
+        currentVisitorCount = parsed.count;
       }
     }
   } catch (err) {
-    console.warn("Could not read visitor_stats.json:", err);
+    // Read-only environment fallback
   }
-  return BASE_VISITOR_COUNT;
+  isLoaded = true;
+  return currentVisitorCount;
 }
 
-function saveStoredCount(count: number): void {
+async function persistCount(count: number): Promise<void> {
+  if (typeof window !== "undefined") return;
   try {
+    const fs = await import("fs");
+    const path = await import("path");
+    const file = path.resolve(process.cwd(), "visitor_stats.json");
     fs.writeFileSync(
-      STATS_FILE,
+      file,
       JSON.stringify({ count, lastVisitAt: new Date().toISOString() }, null, 2),
       "utf-8"
     );
-  } catch (err) {
-    console.warn("Could not write visitor_stats.json:", err);
+  } catch (_) {
+    // Vercel serverless /tmp or read-only filesystem graceful fallback
   }
 }
 
-let currentVisitorCount = getStoredCount();
-
 export const getVisitorStats = createServerFn({ method: "GET" }).handler(async () => {
+  await loadPersistedCount();
   return { count: currentVisitorCount };
 });
 
@@ -44,9 +54,10 @@ export const trackVisitorVisit = createServerFn({ method: "POST" })
     z.object({ isNewSession: z.boolean().default(true) }).parse(input ?? { isNewSession: true })
   )
   .handler(async ({ data }) => {
+    await loadPersistedCount();
     if (data.isNewSession) {
       currentVisitorCount = Math.max(BASE_VISITOR_COUNT, currentVisitorCount + 1);
-      saveStoredCount(currentVisitorCount);
+      await persistCount(currentVisitorCount);
     }
     return { count: currentVisitorCount };
   });
