@@ -269,7 +269,7 @@ function BlogPostDetail() {
         {/* FEATURED QUOTE CALLOUT */}
         <blockquote className="border-l-4 border-cognac bg-cognac/5 p-6 md:p-8 my-8 space-y-3">
           <div className="flex items-center gap-2 text-xs font-semibold text-cognac uppercase tracking-widest">
-            <Flame className="h-4 w-4" /> The Spanish Soul
+            <Flame className="h-4 w-4" /> {post.content.brandMeaning.calloutTitle || "The Spanish Soul"}
           </div>
           <p className="font-display text-xl sm:text-2xl text-foreground italic leading-relaxed">
             "{post.content.brandMeaning.spanishOrigin}"
@@ -280,72 +280,38 @@ function BlogPostDetail() {
         </blockquote>
 
         {/* PILLARS / LESSONS */}
-        {post.content.pillars.length > 0 && (
+        {post.content.pillars && post.content.pillars.length > 0 && (
           <div className="my-10 space-y-8">
             <h2 className="font-display text-2xl sm:text-3xl text-foreground border-b border-border pb-3">
-              3 Lessons from Spain’s Champions
+              {post.content.pillarsTitle || "Craftsmanship Principles & Insights"}
             </h2>
 
             <div className="space-y-6">
-              {/* PILLAR 1 */}
-              <div className="border border-border bg-card p-6 md:p-8 shadow-sm transition hover:border-cognac/50">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-cognac text-primary-foreground font-display text-xl font-bold">
-                    01
-                  </div>
-                  <div>
-                    <h3 className="font-display text-xl text-foreground flex items-center gap-2">
-                      <Trophy className="h-5 w-5 text-cognac" /> Craft Takes Time
-                    </h3>
-                    <p className="mt-2 text-sm font-semibold text-cognac italic">
-                      "Watch the replays. Every pass, every goal came from years of training."
-                    </p>
-                    <p className="mt-3 text-sm text-foreground/85 leading-relaxed">
-                      At CUEROCAZA, every bag, wallet, and belt goes through the same idea: hand-finished details, real leather that ages with you, not against you. No shortcuts.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* PILLAR 2 */}
-              <div className="border border-border bg-card p-6 md:p-8 shadow-sm transition hover:border-cognac/50">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-cognac text-primary-foreground font-display text-xl font-bold">
-                    02
-                  </div>
-                  <div>
-                    <h3 className="font-display text-xl text-foreground flex items-center gap-2">
-                      <Heart className="h-5 w-5 text-cognac" /> Play With Heart
-                    </h3>
-                    <p className="mt-2 text-sm font-semibold text-cognac italic">
-                      "Spain didn’t win by being the loudest. They won by playing together, with heart."
-                    </p>
-                    <p className="mt-3 text-sm text-foreground/85 leading-relaxed">
-                      That’s how we treat our customers. You’re not buying “just leather goods.” You’re joining a brand that values quality over hype.
-                    </p>
+              {post.content.pillars.map((pillar) => (
+                <div
+                  key={pillar.number}
+                  className="border border-border bg-card p-6 md:p-8 shadow-sm transition hover:border-cognac/50"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-cognac text-primary-foreground font-display text-xl font-bold">
+                      {pillar.number}
+                    </div>
+                    <div>
+                      <h3 className="font-display text-xl text-foreground flex items-center gap-2">
+                        <Flame className="h-5 w-5 text-cognac" /> {pillar.title}
+                      </h3>
+                      {pillar.highlight && (
+                        <p className="mt-2 text-sm font-semibold text-cognac italic">
+                          "{pillar.highlight}"
+                        </p>
+                      )}
+                      <p className="mt-3 text-sm text-foreground/85 leading-relaxed">
+                        {pillar.body}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* PILLAR 3 */}
-              <div className="border border-border bg-card p-6 md:p-8 shadow-sm transition hover:border-cognac/50">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-cognac text-primary-foreground font-display text-xl font-bold">
-                    03
-                  </div>
-                  <div>
-                    <h3 className="font-display text-xl text-foreground flex items-center gap-2">
-                      <ShieldCheck className="h-5 w-5 text-cognac" /> Leave a Legacy
-                    </h3>
-                    <p className="mt-2 text-sm font-semibold text-cognac italic">
-                      "A World Cup win becomes part of history. A good leather piece does too."
-                    </p>
-                    <p className="mt-3 text-sm text-foreground/85 leading-relaxed">
-                      It gets better with time. It tells your story. 10 years from now, you’ll still carry it.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         )}

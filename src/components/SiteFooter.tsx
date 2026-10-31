@@ -130,7 +130,7 @@ export function SiteFooter() {
                 onClick={() => setLanguage("ar")}
                 className={`text-left rtl:text-right hover:text-gilt transition ${language === "ar" ? "text-gilt font-bold" : ""}`}
               >
-                🇦🇪 العربية (دبي)
+                🇦🇪 العربية (الإمارات)
               </button>
             </div>
           </div>

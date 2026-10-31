@@ -105,6 +105,80 @@ function BlogIndexPage() {
           </div>
         </section>
 
+        {/* ALL STORIES & GUIDES */}
+        <section className="mb-20">
+          <div className="flex items-center justify-between mb-8 border-b border-border/60 pb-4">
+            <div>
+              <span className="eyebrow block">The Craft Journal</span>
+              <h2 className="font-display text-2xl sm:text-3xl text-foreground">
+                All Stories &amp; Guides
+              </h2>
+            </div>
+            <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+              {BLOG_POSTS.length} Stories
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {BLOG_POSTS.map((post) => (
+              <article
+                key={post.id}
+                className="group border border-border bg-card flex flex-col justify-between overflow-hidden shadow-sm transition hover:border-cognac/50 hover:shadow-md"
+              >
+                <div>
+                  <div className="aspect-[16/10] overflow-hidden relative bg-muted">
+                    <img
+                      src={post.heroImage}
+                      alt={post.title}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute top-3 left-3 bg-cognac text-white text-[10px] font-semibold uppercase tracking-wider px-2.5 py-0.5">
+                      {post.category}
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 text-[11px] text-muted-foreground mb-3">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3 text-cognac" />
+                        {post.publishedAt}
+                      </span>
+                      <span>•</span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3 text-cognac" />
+                        {post.readTime}
+                      </span>
+                    </div>
+
+                    <h3 className="font-display text-lg font-normal leading-snug text-foreground group-hover:text-cognac transition-colors">
+                      <Link to="/blog/$slug" params={{ slug: post.slug }}>
+                        {post.title}
+                      </Link>
+                    </h3>
+
+                    <p className="mt-3 text-xs leading-relaxed text-foreground/75 font-sans line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-6 pt-0">
+                  <div className="pt-4 border-t border-border/60 flex items-center justify-between text-xs">
+                    <span className="font-medium text-muted-foreground">{post.author.name}</span>
+                    <Link
+                      to="/blog/$slug"
+                      params={{ slug: post.slug }}
+                      className="inline-flex items-center gap-1 font-semibold text-cognac group-hover:translate-x-0.5 transition-transform"
+                    >
+                      Read <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
         {/* BRAND PROMISE / CTA */}
         <section className="bg-espresso text-cream p-8 md:p-12 border border-gilt/20 text-center relative overflow-hidden">
           <div className="relative z-10 max-w-2xl mx-auto">

@@ -71,7 +71,7 @@ function ProductsPage() {
         <h1 className="mt-3 font-display text-5xl md:text-6xl">Explore Our Collection</h1>
         <p className="mt-5 text-muted-foreground">
           Genuine Italian leather wallets, men's casual belts, card holders, passport covers and
-          personalised gifts — handcrafted in Dubai for the UAE.
+          personalised gifts — masterfully handcrafted with genuine Italian leather.
         </p>
       </header>
 

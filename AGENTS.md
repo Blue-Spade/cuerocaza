@@ -10,4 +10,4 @@
 <!-- LOVABLE:END -->
 
 ## Deployment Directive
-- Every time code or content changes are made, automatically execute `bun run deploy-ftp.js` to instantly push builds and restart Passenger on `cuerocaza.com`.
+- The project is hosted on Vercel. Continuous deployment is handled automatically via Git pushes to the repository.

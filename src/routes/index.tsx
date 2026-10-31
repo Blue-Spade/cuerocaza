@@ -11,7 +11,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "CUEROCAZA — Genuine Italian Leather Accessories & Personalised Gifts | www.cuerocaza.com" },
-      { name: "description", content: "Shop genuine Italian leather wallets, passport covers, personalised gifts, and corporate leather accessories in Dubai & UAE. Born in Spain, crafted in Dubai. Official site: www.cuerocaza.com." },
+      { name: "description", content: "Shop genuine Italian leather wallets, passport covers, personalised gifts, and corporate leather accessories in Dubai & UAE. Born in Spain, crafted with master precision. Official site: www.cuerocaza.com." },
       { property: "og:title", content: "CUEROCAZA — Genuine Italian Leather Accessories | www.cuerocaza.com" },
       { property: "og:description", content: "Genuine Italian leather wallets, personalised gifts, and corporate leather solutions across the UAE." },
       { property: "og:url", content: "https://www.cuerocaza.com" },
@@ -100,7 +100,7 @@ function Home() {
             <div>
               <span className="eyebrow">{t.ourStory}</span>
               <h2 className="mt-3 font-display text-4xl md:text-5xl">{t.ourStoryTitle}</h2>
-              <p className="mt-6 font-display text-2xl text-cognac italic">Italian craftsmanship, Dubai soul.</p>
+              <p className="mt-6 font-display text-2xl text-cognac italic">Italian craftsmanship, bespoke elegance.</p>
 
               <h3 className="mt-10 font-display text-2xl md:text-3xl text-cognac">2013 – 2015 · The Gift Shop</h3>
               <p className="mt-3 text-base leading-relaxed text-foreground/85">
@@ -123,7 +123,7 @@ function Home() {
                 personalised gifts — and partner with businesses, hotels, and real estate companies across the UAE.
               </p>
 
-              <p className="mt-10 font-display text-xl italic text-cognac">"Italian craftsmanship, Dubai soul, Spanish spirit."</p>
+              <p className="mt-10 font-display text-xl italic text-cognac">"Italian craftsmanship, bespoke elegance, Spanish spirit."</p>
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link to="/products" className="inline-flex items-center rounded-none bg-cognac px-7 py-3 text-sm font-medium uppercase tracking-wider text-primary-foreground transition hover:opacity-90">

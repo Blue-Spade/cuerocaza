@@ -65,7 +65,7 @@ const walletProducts: Product[] = Array.from({ length: 25 }, (_, index) => {
   return {
     id: `00000000-0000-4000-8000-${String(edition).padStart(12, "0")}`,
     name: `Unisex Wallet — Edition ${String(edition).padStart(2, "0")}`,
-    description: "Full-grain Italian leather unisex wallet, handcrafted in Dubai. Designed to age beautifully with daily use.",
+    description: "Full-grain Italian leather unisex wallet, masterfully handcrafted with artisanal precision. Designed to age beautifully with daily use.",
     category: "unisex-wallets",
     price_cents: 14900,
     currency: "AED",

@@ -65,7 +65,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "CUEROCAZA — Genuine Italian Leather Dubai & Spain | www.cuerocaza.com" },
       { name: "description", content: "CUEROCAZA — Genuine Italian Leather Wallets, Passport Covers & Bespoke Accessories in Dubai. Official website: www.cuerocaza.com." },
       { property: "og:title", content: "CUEROCAZA — Genuine Italian Leather Dubai & Spain | www.cuerocaza.com" },
-      { property: "og:description", content: "Hand-crafted Italian leather wallets and accessories, tailored in Dubai. Born in Spain." },
+      { property: "og:description", content: "Hand-crafted Italian leather wallets and bespoke accessories. Born in Spain." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.cuerocaza.com" },
       { name: "twitter:card", content: "summary_large_image" },

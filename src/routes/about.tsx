@@ -76,7 +76,7 @@ function AboutPage() {
 
           <article className="text-base leading-relaxed text-foreground">
             <p className="font-display text-3xl text-foreground">
-              Italian craftsmanship, Dubai soul, Spanish legacy.
+              Italian craftsmanship, bespoke elegance, Spanish legacy.
             </p>
 
             <h2 className="mt-10 font-display text-3xl md:text-4xl text-cognac">2013 – 2015 · The Gift Shop</h2>
@@ -99,7 +99,7 @@ function AboutPage() {
             </p>
 
             <p className="mt-12 font-display text-2xl italic text-cognac">
-              "Italian craftsmanship, Dubai soul, Spanish spirit."
+              "Italian craftsmanship, bespoke elegance, Spanish spirit."
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4">

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/i18n";
 import { Users, TrendingUp } from "lucide-react";
+import { BASE_VISITOR_COUNT, getVisitorStats, trackVisitorVisit } from "@/lib/visitors.functions";
 
-const INITIAL_VISITOR_COUNT = 472005;
-const STORAGE_KEY = "cuerocaza_visitor_count_v2";
+const STORAGE_KEY = "cuerocaza_visitor_count_v4";
+const SESSION_KEY = "cuerocaza_session_recorded_v4";
 
-let globalCount = INITIAL_VISITOR_COUNT;
+let globalCount = BASE_VISITOR_COUNT;
 let isInitialized = false;
 let globalPulse = false;
 const listeners = new Set<() => void>();
@@ -14,45 +15,58 @@ function notifyListeners() {
   listeners.forEach((fn) => fn());
 }
 
-function initGlobalCounter() {
+async function initGlobalCounter() {
   if (isInitialized || typeof window === "undefined") return;
   isInitialized = true;
 
+  // Retrieve cached count from local storage for immediate zero-latency render
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = parseInt(stored, 10);
-      if (!isNaN(parsed) && parsed >= INITIAL_VISITOR_COUNT) {
+      if (!isNaN(parsed) && parsed >= BASE_VISITOR_COUNT) {
         globalCount = parsed;
+        notifyListeners();
       }
     }
+  } catch (_) {}
 
-    // Increment for current session visit
-    globalCount += 1;
-    localStorage.setItem(STORAGE_KEY, globalCount.toString());
-    notifyListeners();
-  } catch (err) {
-    console.warn("Storage access error:", err);
-  }
+  // Check if this visitor is in a new browsing session
+  const isNewSession = !sessionStorage.getItem(SESSION_KEY);
 
-  // Periodic traffic pulse simulation (12-27 seconds)
-  setInterval(() => {
-    globalCount += 1;
-    try {
-      localStorage.setItem(STORAGE_KEY, globalCount.toString());
-    } catch (_) {}
-    globalPulse = true;
-    notifyListeners();
+  try {
+    let resultCount = globalCount;
+    if (isNewSession) {
+      // Record real new visitor session
+      sessionStorage.setItem(SESSION_KEY, "true");
+      const res = await trackVisitorVisit({ data: { isNewSession: true } });
+      resultCount = res.count;
+    } else {
+      // Existing session on the site, just sync latest real count
+      const res = await getVisitorStats();
+      resultCount = res.count;
+    }
 
-    setTimeout(() => {
-      globalPulse = false;
+    if (resultCount >= BASE_VISITOR_COUNT) {
+      globalCount = resultCount;
+      try {
+        localStorage.setItem(STORAGE_KEY, globalCount.toString());
+      } catch (_) {}
+      globalPulse = true;
       notifyListeners();
-    }, 1200);
-  }, Math.floor(Math.random() * 15000) + 12000);
+      setTimeout(() => {
+        globalPulse = false;
+        notifyListeners();
+      }, 1000);
+    }
+  } catch (err) {
+    // If offline or network error, fallback gracefully to current count
+    console.debug("Visitor counter sync note:", err);
+  }
 }
 
 export function useVisitorCount() {
-  const [count, setCount] = useState<number>(INITIAL_VISITOR_COUNT);
+  const [count, setCount] = useState<number>(() => globalCount);
   const [isPulse, setIsPulse] = useState<boolean>(false);
 
   useEffect(() => {

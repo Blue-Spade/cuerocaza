@@ -23,7 +23,7 @@ export function SiteNav() {
 
   const languages: { code: Language; label: string; flag: string; country: string }[] = [
     { code: "en", label: "English", flag: "🇬🇧", country: "Global" },
-    { code: "ar", label: "العربية", flag: "🇦🇪", country: "Dubai / UAE" },
+    { code: "ar", label: "العربية", flag: "🇦🇪", country: "UAE" },
     { code: "es", label: "Español", flag: "🇪🇸", country: "Spain" },
   ];
 
