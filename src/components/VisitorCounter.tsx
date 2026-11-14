@@ -34,30 +34,35 @@ async function initGlobalCounter() {
   // Check if this visitor is in a new browsing session
   const isNewSession = !sessionStorage.getItem(SESSION_KEY);
 
+  // If it's a new session, record and increment locally right away
+  if (isNewSession) {
+    sessionStorage.setItem(SESSION_KEY, "true");
+    globalCount = Math.max(BASE_VISITOR_COUNT, globalCount) + 1;
+    try {
+      localStorage.setItem(STORAGE_KEY, globalCount.toString());
+    } catch (_) {}
+    globalPulse = true;
+    notifyListeners();
+    setTimeout(() => {
+      globalPulse = false;
+      notifyListeners();
+    }, 1200);
+  }
+
   try {
-    let resultCount = globalCount;
+    let serverRes;
     if (isNewSession) {
-      // Record real new visitor session
-      sessionStorage.setItem(SESSION_KEY, "true");
-      const res = await trackVisitorVisit({ data: { isNewSession: true } });
-      resultCount = res.count;
+      serverRes = await trackVisitorVisit({ data: { isNewSession: true } });
     } else {
-      // Existing session on the site, just sync latest real count
-      const res = await getVisitorStats();
-      resultCount = res.count;
+      serverRes = await getVisitorStats();
     }
 
-    if (resultCount >= BASE_VISITOR_COUNT) {
-      globalCount = resultCount;
+    if (serverRes?.count && serverRes.count > globalCount) {
+      globalCount = serverRes.count;
       try {
         localStorage.setItem(STORAGE_KEY, globalCount.toString());
       } catch (_) {}
-      globalPulse = true;
       notifyListeners();
-      setTimeout(() => {
-        globalPulse = false;
-        notifyListeners();
-      }, 1000);
     }
   } catch (err) {
     // If offline or network error, fallback gracefully to current count

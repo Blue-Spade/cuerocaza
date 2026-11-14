@@ -6,14 +6,19 @@ export const BASE_VISITOR_COUNT = 472005;
 let currentVisitorCount = BASE_VISITOR_COUNT;
 let isLoaded = false;
 
+async function getStorageFile(): Promise<string> {
+  const path = await import("path");
+  const os = await import("os");
+  return path.join(os.tmpdir(), "cuerocaza_visitor_stats.json");
+}
+
 async function loadPersistedCount(): Promise<number> {
   if (isLoaded) return currentVisitorCount;
   if (typeof window !== "undefined") return BASE_VISITOR_COUNT;
   
   try {
     const fs = await import("fs");
-    const path = await import("path");
-    const file = path.resolve(process.cwd(), "visitor_stats.json");
+    const file = await getStorageFile();
     if (fs.existsSync(file)) {
       const raw = fs.readFileSync(file, "utf-8");
       const parsed = JSON.parse(raw);
@@ -32,8 +37,7 @@ async function persistCount(count: number): Promise<void> {
   if (typeof window !== "undefined") return;
   try {
     const fs = await import("fs");
-    const path = await import("path");
-    const file = path.resolve(process.cwd(), "visitor_stats.json");
+    const file = await getStorageFile();
     fs.writeFileSync(
       file,
       JSON.stringify({ count, lastVisitAt: new Date().toISOString() }, null, 2),
