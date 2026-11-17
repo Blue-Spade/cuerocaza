@@ -235,6 +235,95 @@ export const BLOG_POSTS: BlogPost[] = [
     }
   },
   {
+    id: "4",
+    slug: "how-to-choose-the-right-leather-wallet",
+    title: "How to Choose the Right Leather Wallet: The Definitive Buyer's Guide",
+    subtitle: "Size, leather grade, stitching, and soul — everything you need to know before you spend your money on a wallet that will last 20 years.",
+    excerpt: "Most men replace their wallet every two years. With the right knowledge, you buy once and carry it for life. Here's the no-nonsense guide to choosing a leather wallet that actually earns its price.",
+    publishedAt: "November 17, 2026",
+    readTime: "7 min read",
+    category: "Buying Guide",
+    featured: false,
+    author: {
+      name: "Team CUEROCAZA",
+      role: "Style & Craft Advisors",
+    },
+    heroImage: "/hero-banner-main.jpeg",
+    content: {
+      introduction: [
+        "Walk into any shopping mall and the wallet section will overwhelm you in thirty seconds flat. Slim. Bifold. Trifold. Card-only. Money-clip. RFID-blocking. Genuine Leather. Genuine Synthetic. Genuine Confusion.",
+        "Most buyers pick whatever feels good in hand on the day, only to end up with a cracked, bloated, misshapen relic twelve months later.",
+        "This guide cuts through every gimmick and marketing trick to leave you with the five real questions that separate a forgettable purchase from a wallet you'll still carry when your children start asking to borrow it."
+      ],
+      brandMeaning: {
+        calloutTitle: "The Golden Rule of Wallets",
+        spanishOrigin: "A wallet is not an accessory. It is a daily ritual object — it leaves your house with you every single morning and never leaves your side.",
+        philosophy: "Choose it the way a carpenter chooses a plane: weight, balance, material, and longevity over flash."
+      },
+      pillarsTitle: "5 Questions to Ask Before You Buy Any Wallet",
+      pillars: [
+        {
+          number: "01",
+          title: "What Leather Grade Is It, Really?",
+          highlight: "The single most important question — and the one most brands hope you never ask.",
+          body: "We've written a full guide on the four grades of leather (Full-Grain, Top-Grain, Genuine/Split, and Bonded), so here is the short version: if the wallet does not specifically say 'Full-Grain' on the product page, assume it is not. 'Genuine Leather' is the industry's legal minimum — it means animal skin was involved, nothing more. Only full-grain leather has the uncut, densely woven fiber surface that resists cracking, absorbs natural oils, and develops the rich honey patina that makes a 10-year-old wallet look better than a new one. At CUEROCAZA, every wallet we produce is built exclusively from hand-selected Italian full-grain vegetable-tanned hides. No exceptions, no compromises."
+        },
+        {
+          number: "02",
+          title: "Slim vs. Bifold vs. Trifold: Which Shape Suits Your Life?",
+          highlight: "The best wallet is the one that fits your actual daily carry — not the one that looks good in a flat-lay photo.",
+          body: "Slim card wallets (4–6 cards maximum) are perfect for minimalists who rely on digital payments and rarely carry cash. They sit flat in a front trouser pocket and eliminate back-pocket spine damage. Classic bifolds fold once and comfortably hold 6–10 cards plus a cash slot — the timeless workhorse format for most men. Trifolds offer the most raw storage but triple-fold bulk makes them uncomfortable in slim-cut trousers. Our recommendation: audit your wallet right now. If you have more than 8 cards, start by editing your carry down. A leaner wallet is more elegant, more comfortable, and far kinder to your posture."
+        },
+        {
+          number: "03",
+          title: "Inspect the Stitching Before Anything Else",
+          highlight: "The stitching tells you everything about how the rest of the wallet was made.",
+          body: "Turn the wallet inside out if you can. Look at the thread: is it waxed linen or polyester? Waxed linen thread — the same thread used by saddlers for centuries — grips the leather fibers, resists moisture, and never frays. Polyester thread is cheaper, slippery, and will rot at the knots over time. Next, count the stitches per inch. 6–8 SPI is hand-stitcher territory. 10–14 SPI is acceptable machine stitching. If the stitching looks rushed, crooked, or is hidden under a heavy layer of edge paint, the rest of the wallet probably received the same level of attention. At CUEROCAZA, our artisans use traditional saddle-stitching — two needles, one thread, one locked stitch at a time — which means that even if one stitch breaks, the seam will not unravel."
+        },
+        {
+          number: "04",
+          title: "Edge Finishing: The Detail That Separates Craft from Production",
+          highlight: "Raw, rough edges mean the hide was stamped from a machine. Burnished edges mean a human cared.",
+          body: "Pick up the wallet and look at the edges of every leather panel. Mass-produced wallets are die-cut by machine and their raw edges are slathered in a thick layer of acrylic edge paint — the craft equivalent of covering a bad haircut with a hat. Genuine artisan wallets have hand-burnished edges: the leather is moistened, rolled, pressed, and polished repeatedly with a wooden slicker until the fibres compress into a smooth, sealed, almost glass-like finish. It takes eight times as long. It costs more. And it means the edge will never peel, flake, or catch on your pocket lining. Run your thumb along every edge before you commit."
+        },
+        {
+          number: "05",
+          title: "Price Per Year Is the Only Number That Matters",
+          highlight: "A $30 wallet replaced every 18 months costs more over a decade than a $180 wallet that lasts 15 years.",
+          body: "The leather goods industry has conditioned buyers to wince at the sticker price without ever calculating the actual cost of ownership. Here is a simple exercise: take the price of the wallet and divide it by its realistic lifespan in years. A fast-fashion wallet at $35 lasting 1.5 years costs $23 per year. A CUEROCAZA full-grain wallet at $160 lasting 15–20 years costs between $8–$11 per year — and gets more beautiful along the way. The economics of quality almost always win over time. Buy cheap twice, or buy right once."
+        }
+      ],
+      faqs: [
+        {
+          question: "Should I buy a wallet with RFID blocking?",
+          answer: "RFID skimming is a genuine but rare threat in densely crowded transit hubs. If your contactless bank cards feel like a vulnerability to you, an RFID-shielded wallet provides peace of mind. That said, never let RFID lining be the primary reason you choose a wallet — a cheap wallet with RFID lining is still a cheap wallet. Look for full-grain leather first, RFID blocking second."
+        },
+        {
+          question: "How many cards should I actually carry daily?",
+          answer: "Ruthlessly edit to 4–6 essentials: one primary bank card, one backup, your ID, and 1–2 loyalty or access cards. Everything else should live in a dedicated card case at home. A slim carry reduces pick-pocket risk, eliminates back-pocket pressure on your spine, and means your wallet will never stretch or balloon out of shape."
+        },
+        {
+          question: "Will the wallet stretch over time?",
+          answer: "Full-grain leather does mould and soften with use, but it will not stretch out of shape if you carry a sensible number of cards. The wallets that balloon into rounded bricks are almost always holding 12–20 cards, receipts, coins, and folded notes — that is not a wallet problem, that is a carry discipline problem. Keep your wallet lean and it will hold its form beautifully for years."
+        },
+        {
+          question: "What is the best way to break in a new full-grain leather wallet?",
+          answer: "Full-grain leather is firm on day one — this is a feature, not a flaw. Load it with your regular cards and carry it daily for 2–3 weeks. The warmth from your body and the natural movement of your pocket will gently mold the leather to your exact card configuration. You can accelerate the process by applying a very thin layer of natural beeswax leather balm to the exterior on day one, which softens the fibres from the outside in."
+        }
+      ],
+      closing: [
+        "The wallet is one of the most intimate objects a person carries. It touches your hands dozens of times each day. It lives in your pocket through every meeting, every journey, and every memory.",
+        "It deserves more than a five-second decision in a checkout queue.",
+        "Take the time to ask the five questions above. Inspect the leather grade, the stitching, and the edge finish. Calculate the real cost per year. And choose something that will still be with you a decade from now — slightly darker, slightly softer, and completely yours.",
+        "That is what we build at CUEROCAZA. Not the most fashionable wallet in the room. The last one you'll ever need to buy."
+      ],
+      signature: {
+        team: "— Team CUEROCAZA",
+        tagline: "Buy Once. Carry Forever. Spanish Soul in Every Stitch."
+      }
+    }
+  },
+  {
     id: "3",
     slug: "caring-for-your-leather-patina-guide",
     title: "Patina & Care: How Real Leather Tells Your Personal Story",
