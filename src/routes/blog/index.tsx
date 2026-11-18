@@ -119,58 +119,61 @@ function BlogIndexPage() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex flex-col gap-6">
             {BLOG_POSTS.map((post) => (
               <article
                 key={post.id}
-                className="group border border-border bg-card flex flex-col justify-between overflow-hidden shadow-sm transition hover:border-cognac/50 hover:shadow-md"
+                className="group overflow-hidden border border-border bg-card shadow-sm transition hover:border-cognac/40 hover:shadow-md grid md:grid-cols-12 items-center"
               >
-                <div>
-                  <div className="aspect-[16/10] overflow-hidden relative bg-muted">
-                    <img
-                      src={post.heroImage}
-                      alt={post.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute top-3 left-3 bg-cognac text-white text-[10px] font-semibold uppercase tracking-wider px-2.5 py-0.5">
-                      {post.category}
-                    </div>
+                {/* Image */}
+                <div className="md:col-span-5 aspect-[16/10] md:aspect-auto md:h-full overflow-hidden relative">
+                  <img
+                    src={post.heroImage}
+                    alt={post.title}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute top-4 left-4 bg-cognac text-white text-[10px] font-semibold uppercase tracking-wider px-3 py-1">
+                    {post.category}
                   </div>
+                </div>
 
-                  <div className="p-6">
-                    <div className="flex items-center gap-3 text-[11px] text-muted-foreground mb-3">
+                {/* Text */}
+                <div className="md:col-span-7 p-7 md:p-9 flex flex-col justify-between h-full">
+                  <div>
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
                       <span className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3 text-cognac" />
+                        <Calendar className="h-3.5 w-3.5 text-cognac" />
                         {post.publishedAt}
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3 text-cognac" />
+                        <Clock className="h-3.5 w-3.5 text-cognac" />
                         {post.readTime}
                       </span>
                     </div>
 
-                    <h3 className="font-display text-lg font-normal leading-snug text-foreground group-hover:text-cognac transition-colors">
+                    <h3 className="font-display text-xl md:text-2xl font-normal leading-tight text-foreground group-hover:text-cognac transition-colors">
                       <Link to="/blog/$slug" params={{ slug: post.slug }}>
                         {post.title}
                       </Link>
                     </h3>
 
-                    <p className="mt-3 text-xs leading-relaxed text-foreground/75 font-sans line-clamp-3">
+                    <p className="mt-3 text-sm leading-relaxed text-foreground/75 font-sans line-clamp-3">
                       {post.excerpt}
                     </p>
                   </div>
-                </div>
 
-                <div className="p-6 pt-0">
-                  <div className="pt-4 border-t border-border/60 flex items-center justify-between text-xs">
-                    <span className="font-medium text-muted-foreground">{post.author.name}</span>
+                  <div className="mt-6 pt-5 border-t border-border/60 flex items-center justify-between">
+                    <div>
+                      <div className="text-xs font-semibold text-foreground">{post.author.name}</div>
+                      <div className="text-[11px] text-muted-foreground">{post.author.role}</div>
+                    </div>
                     <Link
                       to="/blog/$slug"
                       params={{ slug: post.slug }}
-                      className="inline-flex items-center gap-1 font-semibold text-cognac group-hover:translate-x-0.5 transition-transform"
+                      className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-semibold text-cognac group-hover:translate-x-1 transition-transform"
                     >
-                      Read <ArrowRight className="h-3 w-3" />
+                      Read Story <ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>
                 </div>
