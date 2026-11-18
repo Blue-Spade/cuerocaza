@@ -1,97 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useLanguage } from "@/lib/i18n";
 import { Users, TrendingUp } from "lucide-react";
-import { BASE_VISITOR_COUNT, getVisitorStats, trackVisitorVisit } from "@/lib/visitors.functions";
+import { BASE_VISITOR_COUNT } from "@/lib/visitors.functions";
 
-const STORAGE_KEY = "cuerocaza_visitor_count_v4";
-const SESSION_KEY = "cuerocaza_session_recorded_v4";
-
-let globalCount = BASE_VISITOR_COUNT;
-let isInitialized = false;
-let globalPulse = false;
-const listeners = new Set<() => void>();
-
-function notifyListeners() {
-  listeners.forEach((fn) => fn());
-}
-
-async function initGlobalCounter() {
-  if (isInitialized || typeof window === "undefined") return;
-  isInitialized = true;
-
-  // Retrieve cached count from local storage for immediate zero-latency render
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = parseInt(stored, 10);
-      if (!isNaN(parsed) && parsed >= BASE_VISITOR_COUNT) {
-        globalCount = parsed;
-        notifyListeners();
-      }
-    }
-  } catch (_) {}
-
-  // Check if this visitor is in a new browsing session
-  const isNewSession = !sessionStorage.getItem(SESSION_KEY);
-
-  // If it's a new session, record and increment locally right away
-  if (isNewSession) {
-    sessionStorage.setItem(SESSION_KEY, "true");
-    globalCount = Math.max(BASE_VISITOR_COUNT, globalCount) + 1;
-    try {
-      localStorage.setItem(STORAGE_KEY, globalCount.toString());
-    } catch (_) {}
-    globalPulse = true;
-    notifyListeners();
-    setTimeout(() => {
-      globalPulse = false;
-      notifyListeners();
-    }, 1200);
-  }
-
-  try {
-    let serverRes;
-    if (isNewSession) {
-      serverRes = await trackVisitorVisit({ data: { isNewSession: true } });
-    } else {
-      serverRes = await getVisitorStats();
-    }
-
-    if (serverRes?.count && serverRes.count > globalCount) {
-      globalCount = serverRes.count;
-      try {
-        localStorage.setItem(STORAGE_KEY, globalCount.toString());
-      } catch (_) {}
-      notifyListeners();
-    }
-  } catch (err) {
-    // If offline or network error, fallback gracefully to current count
-    console.debug("Visitor counter sync note:", err);
-  }
-}
-
-export function useVisitorCount() {
-  const [count, setCount] = useState<number>(() => globalCount);
-  const [isPulse, setIsPulse] = useState<boolean>(false);
-
-  useEffect(() => {
-    initGlobalCounter();
-    setCount(globalCount);
-    setIsPulse(globalPulse);
-
-    const onChange = () => {
-      setCount(globalCount);
-      setIsPulse(globalPulse);
-    };
-
-    listeners.add(onChange);
-    return () => {
-      listeners.delete(onChange);
-    };
-  }, []);
-
-  return { count, isPulse };
-}
+// ─── Static Visitor Counter ──────────────────────────────────────────────────
+// Auto-increment on new sessions is DISABLED.
+// The count shown is BASE_VISITOR_COUNT from visitors.functions.ts.
+// Update BASE_VISITOR_COUNT manually at the end of each week (+2 or +3).
+// ────────────────────────────────────────────────────────────────────────────
 
 interface VisitorCounterProps {
   variant?: "header" | "badge" | "banner";
@@ -128,9 +44,8 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
   className = "",
 }) => {
   const { t } = useLanguage();
-  const { count, isPulse } = useVisitorCount();
 
-  // Format count into comma-separated string: "472,006"
+  const count = BASE_VISITOR_COUNT;
   const formattedString = count.toLocaleString("en-US");
   const digits = formattedString.split("");
 
@@ -147,7 +62,7 @@ export const VisitorCounter: React.FC<VisitorCounterProps> = ({
         <span className="text-[11px] font-medium text-cream/70 hidden sm:inline">
           {t.totalVisitorsServed}:
         </span>
-        <div className={`flex items-center text-gilt transition-scale duration-300 ${isPulse ? "scale-105" : ""}`}>
+        <div className="flex items-center text-gilt">
           {digits.map((d, idx) => (
             <RollerDigit key={`${idx}-${d}`} digit={d} />
           ))}
